@@ -1,5 +1,6 @@
 "use server";
 
+import { auth } from "@/lib/auth/auth";
 import { hashingPassword, verifyPassword } from "@/lib/hashing";
 import { prisma } from "@/lib/prisma";
 import { redirect } from "next/navigation";
@@ -26,9 +27,14 @@ export const signUpAction = async (prevState: any, formData: any) => {
 
   try {
     const hashedPassword = await hashingPassword(password);
-    await prisma.user.create({
-      data: { name, email, password: hashedPassword },
+    // await prisma.user.create({
+    //   data: { name, email, password: hashedPassword },
+    // });
+    const response = await auth.api.signUpEmail({
+      body: { name, email, password: hashedPassword },
+      asResponse: true,
     });
+    console.log(response);
   } catch (error) {
     const err = error as any;
     if (err.code === "P2002") {
@@ -38,7 +44,7 @@ export const signUpAction = async (prevState: any, formData: any) => {
     }
     return { errors, inputs: { name, email, password } };
   }
-  redirect("/dashboard");
+  // redirect("/dashboard");
 };
 
 export const loginAction = async (prevState: any, formData: any) => {
