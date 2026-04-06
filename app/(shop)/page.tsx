@@ -1,5 +1,6 @@
 "use client";
 
+import { Button } from "@/components/ui/button";
 import { signIn, signOut, signUp, useSession } from "@/lib/auth/auth-client";
 import { useState } from "react";
 
@@ -54,6 +55,7 @@ export default function Home() {
         session
       </button>
       <p>{state}</p>
+      <Button variant="destructive">click</Button>
     </main>
   );
 }

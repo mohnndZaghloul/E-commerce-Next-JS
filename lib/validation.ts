@@ -4,7 +4,7 @@ type UserState_TP = {
   password: string;
 };
 
-export function signUpValidation(userState: UserState_TP) {
+export function registrationValidation(userState: UserState_TP) {
   let errors = { name: "", email: "", password: "", other: "" };
 
   if (!userState.name || userState.name.trim().length === 0) {

@@ -5,9 +5,10 @@ import Link from "next/link";
 import { User2Icon } from "lucide-react";
 import FormInput from "./FormInput";
 import ErrorMessage from "./ErrorMessage";
-import { signUpValidation } from "@/lib/validation";
+import { registrationValidation } from "@/lib/validation";
 import { signUp } from "@/lib/auth/auth-client";
 import { useRouter } from "next/navigation";
+import { Button } from "../ui/button";
 
 export default function SignUpForm() {
   const router = useRouter();
@@ -24,23 +25,28 @@ export default function SignUpForm() {
     other: "",
   });
 
+  //handler function
   const signUpHandler = async (event: React.SubmitEvent<HTMLFormElement>) => {
     event.preventDefault();
+
     setIsLoading(true);
-    const result = signUpValidation(userState);
+    const result = registrationValidation(userState);
     if (Object.values(result).some(Boolean)) {
       setErrors(result);
       setIsLoading(false);
       return;
     }
-    const { data, error } = await signUp.email(userState);
-    if (error?.code) {
-      setErrors({ ...result, other: error?.message! });
-      setIsLoading(false);
-      return;
-    }
-    setIsLoading(false);
-    router.replace("/dashboard");
+
+    await signUp.email(userState, {
+      onSuccess: (res) => {
+        setIsLoading(false);
+        router.replace("/dashboard");
+      },
+      onError: (errors) => {
+        setErrors({ ...result, other: errors?.error?.message! });
+        setIsLoading(false);
+      },
+    });
   };
 
   return (
@@ -82,12 +88,12 @@ export default function SignUpForm() {
       </div>
       <div className="mt-5 text-center space-y-1">
         <ErrorMessage message={errors?.other} />
-        <button
+        <Button
           type="submit"
           disabled={isLoading}
           className={`cursor-pointer w-full rounded bg-primary text-secondary hover:opacity-80  border border-primary transition py-2`}>
           {isLoading ? "loading..." : "sign up"}
-        </button>
+        </Button>
         <p>
           has already account ?{" "}
           <Link
