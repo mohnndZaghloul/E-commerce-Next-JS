@@ -55,7 +55,6 @@ export default function Home() {
         session
       </button>
       <p>{state}</p>
-      <Button variant="destructive">click</Button>
     </main>
   );
 }

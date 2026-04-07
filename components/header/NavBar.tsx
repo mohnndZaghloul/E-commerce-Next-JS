@@ -8,15 +8,12 @@ export default function NavBar() {
   const { data } = useSession();
 
   return (
-    <header className="bg-primary text-gray-800 h-12">
-      <nav className="container text-lg h-full flex justify-between items-center">
+    <header className="h-12 border-b shadow">
+      <nav className="container h-full flex justify-between items-center">
         <div>logo</div>
         <ul className="flex items-center gap-5">
           <li>
             <NavLink href="/" text="shop" />
-          </li>
-          <li>
-            <ModeToggler />
           </li>
           {data?.user ? (
             <li>
@@ -32,6 +29,9 @@ export default function NavBar() {
               </li>
             </>
           )}
+          <li>
+            <ModeToggler />
+          </li>
         </ul>
       </nav>
     </header>

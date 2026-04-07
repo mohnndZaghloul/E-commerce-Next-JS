@@ -31,6 +31,7 @@ model Product {
   content    String
   price      Float
   rating     Float
+  tags       String[]
   createAt   DateTime   @default(now())
   UpdateAt   DateTime   @updatedAt
   userId     String?

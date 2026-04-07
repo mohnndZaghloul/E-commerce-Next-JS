@@ -13,7 +13,7 @@ export default function NavLink({ href, text }: NavLink_TP) {
   return (
     <Link
       href={href}
-      className={`capitalize w-full ${path.endsWith(href) ? "text-secondary" : "hover:text-secondary"} transition-colors`}>
+      className={`capitalize w-full ${path.endsWith(href) ? "text-primary" : "hover:text-primary"} transition-colors`}>
       {text}
     </Link>
   );

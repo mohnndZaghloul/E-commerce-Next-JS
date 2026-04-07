@@ -3,5 +3,5 @@ export default function ErrorMessage({
 }: {
   message: String | undefined;
 }) {
-  return <p className="text-red-500 text-end">{message}</p>;
+  return <p className="text-destructive text-end text-sm">{message}</p>;
 }

@@ -1,5 +1,8 @@
 import { Eye, EyeOff } from "lucide-react";
 import { useId, useState } from "react";
+import { Input } from "../ui/input";
+import { Label } from "../ui/label";
+import ErrorMessage from "./ErrorMessage";
 
 type FormInput_TP = {
   name: string;
@@ -8,6 +11,7 @@ type FormInput_TP = {
   minlength?: number;
   maxlength?: number;
   type?: string;
+  error?: string;
   onChange: (e: React.ChangeEvent<HTMLInputElement, HTMLInputElement>) => void;
   textarea?: boolean;
 };
@@ -16,6 +20,7 @@ export default function FormInput({
   placeholder,
   value,
   type,
+  error,
   minlength,
   maxlength,
   onChange,
@@ -25,16 +30,19 @@ export default function FormInput({
   const [showPassword, setShowPassword] = useState<boolean>(false);
 
   const eyeIconStyle =
-    "cursor-pointer rounded h-full w-12 p-2 transition bg-primary hover:bg-primary/80 text-secondary absolute inset-e-0 top-1/2 -translate-y-1/2";
+    "cursor-pointer rounded-lg h-full w-12 p-2 transition bg-primary hover:bg-primary/80 text-muted absolute inset-e-0 top-1/2 -translate-y-1/2";
 
   return (
     <>
-      <label className="capitalize" htmlFor={id}>
-        {name}
-      </label>
-      <div className="relative">
-        <input
-          className="w-full rounded p-2 outline-1 bg-gray-200 placeholder:capitalize"
+      <div className="flex justify-between items-center">
+        <Label className="capitalize text-sm" htmlFor={id}>
+          {name}
+        </Label>
+        <ErrorMessage message={error} />
+      </div>
+      <div className="relative mt-2">
+        <Input
+          className="placeholder:capitalize"
           id={id}
           name={name}
           placeholder={placeholder || name}

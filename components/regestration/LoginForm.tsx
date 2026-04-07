@@ -50,44 +50,45 @@ export default function LoginForm() {
   };
 
   return (
-    <form onSubmit={loginHandler} className="border p-10 w-full space-y-4">
+    <form
+      onSubmit={loginHandler}
+      className="border p-10 w-full space-y-4 shadow-2xl bg-card rounded-xl">
       <div className="flex justify-between items-center text-xl capitalize border-b-2">
         <User2Icon size={52} /> login
       </div>
-
       <div>
         <FormInput
           name="email"
           placeholder="enter email"
           type="email"
+          error={errors?.email}
           onChange={(e) =>
             setUserState({ ...userState, email: e.target.value })
           }
         />
-        <ErrorMessage message={errors?.email} />
       </div>
       <div>
         <FormInput
           name="password"
           placeholder="enter password"
           type="password"
+          error={errors?.password}
           minlength={8}
           onChange={(e) =>
             setUserState({ ...userState, password: e.target.value })
           }
         />
-        <ErrorMessage message={errors?.password} />
       </div>
-      <div className="mt-5 text-center space-y-1">
+      <div className="mt-8 text-center space-y-4">
         <ErrorMessage message={errors?.other} />
         <Button
           type="submit"
           disabled={isLoading}
-          className={`cursor-pointer w-full rounded bg-primary text-secondary hover:opacity-80  border border-primary transition py-2`}>
-          {isLoading ? "loading..." : "sign up"}
+          className="cursor-pointer capitalize w-full rounded bg-primary hover:opacity-80 transition py-4">
+          {isLoading ? "loading..." : "login"}
         </Button>
         <p>
-          has already account ?{" "}
+          has already account ?
           <Link
             className="underline hover:text-primary transition"
             href="/login">
