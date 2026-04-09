@@ -1,160 +1,3 @@
-// "use client";
-
-// import {
-//   ColumnDef,
-//   useReactTable,
-//   getCoreRowModel,
-//   getPaginationRowModel,
-//   getFilteredRowModel,
-// } from "@tanstack/react-table";
-
-// import {
-//   Table,
-//   TableBody,
-//   TableCell,
-//   TableHead,
-//   TableHeader,
-//   TableRow,
-// } from "@/components/ui/table";
-// import { Checkbox } from "@/components/ui/checkbox";
-// import { useState } from "react";
-
-// export type Customer = {
-//   id: string;
-//   name: string;
-//   email: string;
-//   joined: Date;
-// };
-
-// export const columns: ColumnDef<Customer>[] = [
-//   {
-//     id: "select",
-//     header: ({ table }) => (
-//       <Checkbox
-//         checked={table.getIsAllPageRowsSelected()}
-//         onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
-//       />
-//     ),
-//     cell: ({ row }) => (
-//       <Checkbox
-//         checked={row.getIsSelected()}
-//         onCheckedChange={(value) => row.toggleSelected(!!value)}
-//       />
-//     ),
-//   },
-//   {
-//     accessorKey: "name",
-//     header: "Name",
-//   },
-//   {
-//     accessorKey: "email",
-//     header: "Email",
-//   },
-//   {
-//     accessorKey: "joined",
-//     header: "Joined",
-//   },
-//   {
-//     id: "actions",
-//     header: "Actions",
-//     cell: ({ row }) => {
-//       const customer = row.original;
-
-//       return (
-//         <div className="flex gap-2">
-//           <button className="text-blue-500">Edit</button>
-//           <button className="text-red-500">Delete</button>
-//         </div>
-//       );
-//     },
-//   },
-// ];
-
-// export function DataTable({ data }: any) {
-//   const [columnFilters, setColumnFilters] = useState([]);
-//   const [rowSelection, setRowSelection] = useState({});
-//   const table = useReactTable({
-//     data,
-//     columns,
-//     state: {
-//       columnFilters, // ✅
-//     },
-//     onRowSelectionChange: setRowSelection,
-//     enableRowSelection: true,
-
-//     getCoreRowModel: getCoreRowModel(),
-//     getPaginationRowModel: getPaginationRowModel(),
-//     getFilteredRowModel: getFilteredRowModel(),
-//   });
-
-//   return (
-//     <div className="space-y-4">
-//       <input
-//         placeholder="Search by email..."
-//         value={(table.getColumn("email")?.getFilterValue() as string) ?? ""}
-//         onChange={(e) =>
-//           table.getColumn("email")?.setFilterValue(e.target.value)
-//         }
-//         className="border p-2 rounded w-64"
-//       />
-
-//       {/* Table */}
-//       <div className="rounded-md border">
-//         <Table>
-//           <TableHeader>
-//             {table.getHeaderGroups().map((headerGroup) => (
-//               <TableRow key={headerGroup.id}>
-//                 {headerGroup.headers.map((header: any) => (
-//                   <TableHead key={header.id}>
-//                     {header.column.columnDef.header}
-//                   </TableHead>
-//                 ))}
-//               </TableRow>
-//             ))}
-//           </TableHeader>
-
-//           <TableBody>
-//             {table.getRowModel().rows.map((row) => (
-//               <TableRow key={row.id}>
-//                 {row.getVisibleCells().map((cell) => (
-//                   <TableCell key={cell.id}>
-//                     {cell.column.columnDef.cell
-//                       ? cell.column.columnDef.cell(cell.getContext())
-//                       : cell.getValue()}
-//                   </TableCell>
-//                 ))}
-//               </TableRow>
-//             ))}
-//           </TableBody>
-//         </Table>
-//       </div>
-
-//       {/* ✅ Pagination UI */}
-//       <div className="flex items-center justify-between">
-//         <div className="text-sm text-muted-foreground">
-//           Page {table.getState().pagination.pageIndex + 1} of{" "}
-//           {table.getPageCount()}
-//         </div>
-
-//         <div className="flex gap-2">
-//           <button
-//             onClick={() => table.previousPage()}
-//             disabled={!table.getCanPreviousPage()}
-//             className="border px-3 py-1 rounded disabled:opacity-50">
-//             Previous
-//           </button>
-
-//           <button
-//             onClick={() => table.nextPage()}
-//             disabled={!table.getCanNextPage()}
-//             className="border px-3 py-1 rounded disabled:opacity-50">
-//             Next
-//           </button>
-//         </div>
-//       </div>
-//     </div>
-//   );
-// }
 "use client";
 
 import {
@@ -177,8 +20,9 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { Button } from "./ui/button";
+
 import { useState } from "react";
+import { Button } from "./ui/button";
 import { Input } from "./ui/input";
 
 interface DataTableProps<TData, TValue> {
@@ -205,6 +49,7 @@ export function DataTable<TData, TValue>({
       },
     },
     onSortingChange: setSorting,
+    getSortedRowModel: getSortedRowModel(),
     onColumnFiltersChange: setColumnFilters,
     onRowSelectionChange: setRowSelection,
     getFilteredRowModel: getFilteredRowModel(),
@@ -228,7 +73,7 @@ export function DataTable<TData, TValue>({
           className="max-w-sm"
         />
       </div>
-        {/* table rows */}
+      {/* table rows */}
       <div className="overflow-hidden rounded-md border">
         <Table>
           <TableHeader>

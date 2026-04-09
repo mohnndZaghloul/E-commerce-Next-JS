@@ -1,7 +1,7 @@
 type UserState_TP = {
   name?: string;
   email: string;
-  password: string;
+  password: string ;
 };
 
 export function registrationValidation(userState: UserState_TP) {

@@ -34,7 +34,6 @@ export const signUpAction = async (prevState: any, formData: any) => {
       body: { name, email, password: hashedPassword },
       asResponse: true,
     });
-    console.log(response);
   } catch (error) {
     const err = error as any;
     if (err.code === "P2002") {

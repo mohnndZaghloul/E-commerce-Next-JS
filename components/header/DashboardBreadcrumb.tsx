@@ -8,6 +8,7 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
+import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Fragment } from "react/jsx-runtime";
 
@@ -33,7 +34,7 @@ export default function DashboardBreadcrumb() {
                 {isLast ? (
                   <BreadcrumbPage>{formatLabel(segment)}</BreadcrumbPage>
                 ) : (
-                  <BreadcrumbLink href={href}>
+                  <BreadcrumbLink href={href} render={<Link href={href} />}>
                     {formatLabel(segment)}
                   </BreadcrumbLink>
                 )}

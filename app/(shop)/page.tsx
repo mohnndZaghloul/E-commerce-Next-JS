@@ -18,7 +18,6 @@ export default function Home() {
             name: "test",
             password: "123456789",
           });
-          console.log(response);
           setState(`${response?.error?.message}`);
         }}
         className="cursor-pointer bg-primary px-10 py-2">
@@ -30,7 +29,6 @@ export default function Home() {
             email: "fakeEmail@mail.com",
             password: "123456789",
           });
-          console.log(response);
           setState(`${response?.error?.message}`);
         }}
         className="cursor-pointer bg-secondary px-10 py-2">
@@ -39,7 +37,6 @@ export default function Home() {
       <button
         onClick={async () => {
           const response = await signOut();
-          console.log(response);
           setState(`${response?.error}-- ${response?.data?.success}`);
         }}
         className="cursor-pointer bg-fuchsia-600 px-10 py-2">

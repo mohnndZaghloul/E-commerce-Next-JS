@@ -1,9 +1,12 @@
 "use client";
 
+import { deleteCustomer, resetPassword } from "@/actions/customers-actions";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { ColumnDef } from "@tanstack/react-table";
 import { ArrowUpDown } from "lucide-react";
+import { signOut } from "./auth/auth-client";
+import { useState } from "react";
 
 export type Customer = {
   id: string;
@@ -54,11 +57,57 @@ export const CustomersColumns: ColumnDef<Customer>[] = [
     },
   },
   {
-    accessorKey: "joined",
+    accessorKey: "createdAt",
     header: "Joined",
+    cell: ({ row }) => {
+      const date = row.getValue("createdAt") as Date;
+      return date.toLocaleDateString("en-US");
+    },
   },
   {
     accessorKey: "actions",
     header: "Actions",
+    cell: ({ row }) => {
+      const [resetIsLoading, setResetIsLoading] = useState(false);
+      const [deleteIsLoading, setDeleteIsLoading] = useState(false);
+      return (
+        <div className="space-x-2">
+          <Button
+            className="cursor-pointer"
+            variant="outline"
+            disabled={deleteIsLoading}
+            onClick={async () => {
+              setResetIsLoading(true);
+              await resetPassword(row.original.email);
+              setResetIsLoading(false);
+            }}
+            // nativeButton={false}
+            // render={<Link href={`./customers/${row.original.id}`} />}
+          >
+            {resetIsLoading ? "Sending Email..." : "Reset Password"}
+          </Button>
+          <Button
+            variant="destructive"
+            disabled={deleteIsLoading || resetIsLoading}
+            onClick={async () => {
+              setDeleteIsLoading(true);
+              const { isSelf } = await deleteCustomer(row.original.id);
+              if (isSelf) {
+                await signOut({
+                  fetchOptions: {
+                    onSuccess: () => {
+                      window.location.href = "/login";
+                    },
+                  },
+                });
+              }
+              setDeleteIsLoading(false);
+            }}
+            className="cursor-pointer">
+            {deleteIsLoading ? "deleting..." : "delete"}
+          </Button>
+        </div>
+      );
+    },
   },
 ];
