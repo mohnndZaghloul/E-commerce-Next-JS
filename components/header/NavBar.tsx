@@ -11,7 +11,7 @@ export default function NavBar() {
     <header className="h-12 border-b shadow">
       <nav className="container h-full flex justify-between items-center">
         <div>logo</div>
-        <ul className="flex items-center gap-5">
+        <ul className="flex h-full items-center gap-5">
           <li>
             <NavLink href="/" text="shop" />
           </li>

@@ -50,7 +50,8 @@ export const resetPassword = async (email: string) => {
     await auth.api.requestPasswordReset({
       body: { email },
     });
+    return true;
   } catch {
-    throw Error("Something went wrong");
+    return false;
   }
 };

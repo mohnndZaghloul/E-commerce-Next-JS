@@ -8,41 +8,70 @@ datasource db {
 }
 
 model User {
-  id            String    @id @default(uuid())
-  role          UserRole  @default(USER)
-  name          String
-  email         String    @unique
-  password      String?
-  image         String?
-  createdAt     DateTime  @default(now())
-  updatedAt     DateTime  @updatedAt
-  emailVerified Boolean   @default(false)
-  favList       Product[] @relation("favList")
-  cart          Product[] @relation("cart")
-  accounts      Account[]
-  sessions      Session[]
-
+  id              String         @id @default(uuid())
+  role            UserRole       @default(USER)
+  name            String
+  email           String         @unique
+  password        String?
+  image           String?
+  emailVerified   Boolean        @default(false)
+  createdAt       DateTime       @default(now())
+  updatedAt       DateTime       @updatedAt
+  createdProducts Product[]      @relation("createdBy")
+  favorites       UserFavorite[]
+  cartItems       CartItem[]
+  accounts        Account[]
+  sessions        Session[]
+  @@index([id])
   @@map("user")
 }
 
 model Product {
-  id         String     @id @default(uuid())
-  title      String
-  content    String
-  price      Float
-  rating     Float
-  tags       String[]
-  createAt   DateTime   @default(now())
-  UpdateAt   DateTime   @updatedAt
-  userId     String?
-  favByID    String?
-  favBy      User?      @relation("favList", fields: [favByID], references: [id])
-  user       User?      @relation("cart", fields: [userId], references: [id])
-  categories Category[] @relation("CategoryToProduct")
+  id          String         @id @default(uuid())
+  title       String
+  description String
+  price       Float
+  rating      Float          @default(0)
+  image       String?
+  tags        String[]       @default([])
+  createAt    DateTime       @default(now())
+  UpdateAt    DateTime       @updatedAt
+  createdById String?
+  createdBy   User?          @relation("createdBy", fields: [createdById], references: [id])
+  categories  Category[]     @relation("CategoryToProduct")
+  favoritedBy UserFavorite[]
+  cartItems   CartItem[]
+}
+
+model UserFavorite {
+  userId    String
+  productId String
+  createdAt DateTime @default(now())
+
+  user    User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  product Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+  @@id([userId, productId])
+  @@map("user_favorite")
+}
+
+model CartItem {
+  id        String   @id @default(uuid())
+  quantity  Int      @default(1)
+  createdAt DateTime @default(now())
+
+  userId    String
+  productId String
+  user      User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  product   Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, productId])
+  @@map("cart_item")
 }
 
 model Category {
   id       String    @id @default(uuid())
+  name     String    @unique
   products Product[] @relation("CategoryToProduct")
 }
 

@@ -4,8 +4,8 @@ import { deleteCustomer, resetPassword } from "@/actions/customers-actions";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { ColumnDef } from "@tanstack/react-table";
-import { ArrowUpDown } from "lucide-react";
-import { signOut } from "./auth/auth-client";
+import { ArrowUpDown, SendIcon, Trash2, CircleCheckBig } from "lucide-react";
+import { signOut } from "../../lib/auth/auth-client";
 import { useState } from "react";
 
 export type Customer = {
@@ -70,21 +70,35 @@ export const CustomersColumns: ColumnDef<Customer>[] = [
     cell: ({ row }) => {
       const [resetIsLoading, setResetIsLoading] = useState(false);
       const [deleteIsLoading, setDeleteIsLoading] = useState(false);
+      const [isDone, setIsDone] = useState(false);
       return (
         <div className="space-x-2">
           <Button
             className="cursor-pointer"
             variant="outline"
-            disabled={deleteIsLoading}
+            disabled={deleteIsLoading || isDone}
             onClick={async () => {
               setResetIsLoading(true);
-              await resetPassword(row.original.email);
+              const result = await resetPassword(row.original.email);
+              setIsDone(result);
               setResetIsLoading(false);
             }}
             // nativeButton={false}
             // render={<Link href={`./customers/${row.original.id}`} />}
           >
-            {resetIsLoading ? "Sending Email..." : "Reset Password"}
+            {resetIsLoading ? (
+              "Sending Email..."
+            ) : isDone ? (
+              <>
+                <CircleCheckBig />
+                Done
+              </>
+            ) : (
+              <>
+                <SendIcon />
+                Reset Password
+              </>
+            )}
           </Button>
           <Button
             variant="destructive"
@@ -104,6 +118,7 @@ export const CustomersColumns: ColumnDef<Customer>[] = [
               setDeleteIsLoading(false);
             }}
             className="cursor-pointer">
+            <Trash2 />
             {deleteIsLoading ? "deleting..." : "delete"}
           </Button>
         </div>

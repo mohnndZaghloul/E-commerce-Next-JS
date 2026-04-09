@@ -1,4 +1,9 @@
+import ProductForm from "@/components/dashboard/ProductForm";
 
 export default function AddProductPage() {
-  return <div>Add Product Page</div>;
+  return (
+    <div className="container">
+      <ProductForm />
+    </div>
+  );
 }
