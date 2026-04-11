@@ -1,3 +1,5 @@
+"use client";
+
 import { Eye, EyeOff } from "lucide-react";
 import { useId, useState } from "react";
 import { Input } from "../ui/input";
@@ -6,30 +8,37 @@ import ErrorMessage from "./ErrorMessage";
 import { cn } from "@/lib/utils";
 
 type FormInput_TP = {
-  name: string;
+  name?: string;
   placeholder?: string;
   value?: string;
+  className?: string;
   minlength?: number;
   maxlength?: number;
+  step?: string;
   type?: string;
   error?: string;
-  onChange?: (
+  onChange: (
     e:
       | React.ChangeEvent<HTMLInputElement, HTMLInputElement>
       | React.ChangeEvent<HTMLTextAreaElement, HTMLTextAreaElement>,
   ) => void;
   textarea?: boolean;
+  accept?: string;
+  multiple?: boolean;
 };
+
 export default function FormInput({
   name,
   placeholder,
   value,
+  className,
   type,
   error,
   minlength,
   maxlength,
   onChange,
   textarea,
+  ...props
 }: FormInput_TP) {
   const id = useId();
   const [showPassword, setShowPassword] = useState<boolean>(false);
@@ -39,25 +48,26 @@ export default function FormInput({
 
   return (
     <>
-      <div className="flex justify-between items-center">
-        <Label className="capitalize text-sm" htmlFor={id}>
-          {name}
-        </Label>
-        <ErrorMessage message={error} />
-      </div>
-      <div className="relative mt-2">
+      <div className="relative mt-2 w-full">
+        <div className="flex justify-between items-center">
+          <Label className="capitalize text-sm" htmlFor={id}>
+            {name}
+          </Label>
+          {error && <ErrorMessage message={error} />}
+        </div>
         {!textarea ? (
-          <>
+          <div className="relative">
             <Input
-              className="placeholder:capitalize"
+              className={cn("placeholder:capitalize", className)}
               id={id}
               name={name}
               placeholder={placeholder || name}
-              defaultValue={value || ""}
+              value={value ?? ""}
               min={minlength}
               max={maxlength}
               type={showPassword ? "text" : type}
-              onChange={onChange ? (e) => onChange(e) : () => {}}
+              onChange={(e) => onChange(e)}
+              {...props}
             />
             {type === "password" ? (
               showPassword ? (
@@ -72,13 +82,13 @@ export default function FormInput({
                 />
               )
             ) : null}
-          </>
+          </div>
         ) : (
           <textarea
             id={id}
             name={name}
             placeholder={placeholder || name}
-            defaultValue={value || ""}
+            value={value ?? ""}
             rows={5}
             onChange={onChange ? (e) => onChange(e) : () => {}}
             className={cn(
