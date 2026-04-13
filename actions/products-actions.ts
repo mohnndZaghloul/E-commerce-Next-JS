@@ -1,33 +1,19 @@
 "use server";
 
+import { auth } from "@/lib/auth/auth";
 import { prisma } from "@/lib/prisma";
+import { ProductFormActionState_TP, ProductFormErrors } from "@/lib/types";
 import { ProductSchema } from "@/lib/validation";
 import { revalidatePath } from "next/cache";
+import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 
-export type ProductFormState = {
-  errors?: {
-    title?: string[];
-    price?: string[];
-    description?: string[];
-    tags?: string[];
-    images?: string[];
-    general?: string[];
-  };
-  inputs?: {
-    title: string;
-    price: string;
-    description: string;
-    tags: string;
-    images: string[];
-  };
-  success?: boolean;
-};
-
-export const addProductAction = async (
-  prevState: ProductFormState,
+export const productFormActions = async (
+  meta: { mode: string; productId?: string },
+  prevState: ProductFormActionState_TP,
   formData: FormData,
-): Promise<ProductFormState> => {
+) => {
+  const session = await auth.api.getSession({ headers: await headers() });
   const rawData = {
     title: (formData.get("title") as string) || "",
     price: (formData.get("price") as string) || "",
@@ -35,21 +21,66 @@ export const addProductAction = async (
     tags: (formData.get("tags") as string) || "",
     images: JSON.parse((formData.get("images") as string) || "[]"),
   };
+  const emptyErrors: ProductFormErrors = {
+    title: [],
+    price: [],
+    description: [],
+    tags: [],
+    images: [],
+    general: [],
+  };
+
+  if (!session?.user.id) {
+    return {
+      errors: {
+        ...emptyErrors,
+        general: ["you are unauthorized for adding product"],
+      },
+      inputs: rawData,
+    };
+  }
 
   const validated = ProductSchema.safeParse(rawData);
   if (!validated.success) {
     return {
-      errors: validated.error.flatten().fieldErrors,
+      errors: {
+        ...emptyErrors,
+        ...validated.error.flatten().fieldErrors,
+      },
       inputs: rawData,
     };
   }
+
   const { title, price, description, tags, images } = validated.data;
   try {
-    await prisma.product.create({
-      data: { title, price, description, tags: tags.split(","), images },
-    });
+    if (meta.mode === "add-product") {
+      await prisma.product.create({
+        data: {
+          title,
+          price,
+          description,
+          tags: tags.split(",").map((t) => t.trim()),
+          images,
+          createdById: session?.user?.id,
+        },
+      });
+    } else {
+      if (meta.mode !== "add-product" && !meta.productId) {
+        throw new Error("Product ID is required for update");
+      }
+      await prisma.product.update({
+        where: { id: meta.productId },
+        data: {
+          title,
+          price,
+          description,
+          tags: tags.split(",").map((t) => t.trim()),
+          images,
+          createdById: session?.user?.id,
+        },
+      });
+    }
   } catch (error) {
-    console.error("Prisma Error:", error);
     return {
       errors: { general: ["Something went wrong"] },
       inputs: rawData,

@@ -5,8 +5,22 @@ import { auth } from "@/lib/auth/auth";
 import { headers } from "next/headers";
 import { revalidatePath } from "next/cache";
 
+export const getRole = async () => {
+  const data = await auth.api.getSession({
+    headers: await headers(),
+  });
+  const user = await prisma.user.findUnique({
+    where: { id: data?.user.id },
+  });
+  return user?.role;
+};
+
 export const deleteCustomer = async (id: string) => {
   const session = await auth.api.getSession({ headers: await headers() });
+  const role = await getRole();
+  if (role !== "ADMIN") {
+    throw new Error("Unauthorized");
+  }
   const isSelf = session?.user.id === id;
 
   if (isSelf && session?.session.token) {

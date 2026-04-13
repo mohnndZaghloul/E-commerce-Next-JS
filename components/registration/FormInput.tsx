@@ -6,26 +6,7 @@ import { Input } from "../ui/input";
 import { Label } from "../ui/label";
 import ErrorMessage from "./ErrorMessage";
 import { cn } from "@/lib/utils";
-
-type FormInput_TP = {
-  name?: string;
-  placeholder?: string;
-  value?: string;
-  className?: string;
-  minlength?: number;
-  maxlength?: number;
-  step?: string;
-  type?: string;
-  error?: string;
-  onChange: (
-    e:
-      | React.ChangeEvent<HTMLInputElement, HTMLInputElement>
-      | React.ChangeEvent<HTMLTextAreaElement, HTMLTextAreaElement>,
-  ) => void;
-  textarea?: boolean;
-  accept?: string;
-  multiple?: boolean;
-};
+import { FormInput_TP } from "@/lib/types";
 
 export default function FormInput({
   name,

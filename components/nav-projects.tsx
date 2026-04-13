@@ -4,32 +4,35 @@ import {
   SidebarGroup,
   SidebarGroupLabel,
   SidebarMenu,
-  SidebarMenuAction,
   SidebarMenuButton,
   SidebarMenuItem,
   useSidebar,
 } from "@/components/ui/sidebar";
 import Link from "next/link";
+import { JSX } from "react";
+import { Role } from "./dashboard/sidebarData";
 
 export function NavProjects({
   projects,
 }: {
   projects: {
-    name: string;
+    label: string;
     url: string;
-    icon: React.ReactNode;
+    icon?: JSX.Element;
+    roles: Role[];
   }[];
 }) {
   const { isMobile } = useSidebar();
+
   return (
     <SidebarGroup className="group-data-[collapsible=icon]:hidden">
       <SidebarGroupLabel>Projects</SidebarGroupLabel>
       <SidebarMenu>
         {projects.map((item) => (
-          <SidebarMenuItem key={item.name}>
+          <SidebarMenuItem key={item.label}>
             <SidebarMenuButton render={<Link href={item.url} />}>
               {item.icon}
-              <span>{item.name}</span>
+              <span>{item.label}</span>
             </SidebarMenuButton>
           </SidebarMenuItem>
         ))}

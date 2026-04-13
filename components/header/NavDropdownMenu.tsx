@@ -7,11 +7,11 @@ import {
   DropdownMenuShortcut,
   DropdownMenuTrigger,
 } from "../ui/dropdown-menu";
-import { Button } from "../ui/button";
 import { LogOutIcon, LayoutDashboard } from "lucide-react";
 import Link from "next/link";
 import { signOut } from "@/lib/auth/auth-client";
 import { useRouter } from "next/navigation";
+import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 
 export default function NavDropdownMenu({ data }: any) {
   const router = useRouter();
@@ -25,12 +25,17 @@ export default function NavDropdownMenu({ data }: any) {
   };
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger 
+      <DropdownMenuTrigger
+        nativeButton={false}
         render={
-          <Button variant="outline">{data?.user?.name[0].toUpperCase()}</Button>
+          <Avatar className="cursor-pointer">
+            <AvatarImage src={data?.user?.image} />
+            <AvatarFallback>{data?.user?.name[0].toUpperCase()}</AvatarFallback>
+          </Avatar>
         }
       />
-      <DropdownMenuContent className="w-full">
+
+      <DropdownMenuContent className="w-full" align="end">
         <DropdownMenuGroup>
           <DropdownMenuLabel className="capitalize">
             {data?.user?.name}
@@ -45,7 +50,7 @@ export default function NavDropdownMenu({ data }: any) {
           <DropdownMenuItem
             onClick={signOutHandler}
             variant="destructive"
-            className="flex justify-between">
+            className="flex justify-between cursor-pointer">
             Sign Out
             <LogOutIcon />
           </DropdownMenuItem>

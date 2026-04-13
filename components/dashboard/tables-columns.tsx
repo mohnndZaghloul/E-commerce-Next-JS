@@ -8,32 +8,18 @@ import { ArrowUpDown, SendIcon, Trash2, CircleCheckBig } from "lucide-react";
 import { signOut } from "../../lib/auth/auth-client";
 import { useState } from "react";
 import { deleteProduct } from "@/actions/products-actions";
+import Image from "next/image";
+import { Skeleton } from "../ui/skeleton";
+import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
+import Link from "next/link";
+import { Customer_TP, Product_TP } from "@/lib/types";
 
-export type Customer = {
-  id: string;
-  name: string;
-  email: string;
-  createdAt: Date;
-  actions?: string;
-};
-
-export type Product = {
-  id: string;
-  title: string;
-  price: number;
-  rating: number;
-  description: string;
-  tags: string[];
-  images: string[];
-  createAt: Date;
-  actions?: string;
-};
-
-export const CustomersColumns: ColumnDef<Customer>[] = [
+export const CustomersColumns: ColumnDef<Customer_TP>[] = [
   {
     id: "select",
     header: ({ table }) => (
       <Checkbox
+        className="mx-auto"
         checked={
           table.getIsAllPageRowsSelected() ||
           (table.getIsSomePageRowsSelected() && false)
@@ -44,6 +30,7 @@ export const CustomersColumns: ColumnDef<Customer>[] = [
     ),
     cell: ({ row }) => (
       <Checkbox
+        className="mx-auto"
         checked={row.getIsSelected()}
         onCheckedChange={(value) => row.toggleSelected(!!value)}
         aria-label="Select row"
@@ -51,6 +38,16 @@ export const CustomersColumns: ColumnDef<Customer>[] = [
     ),
     enableSorting: false,
     enableHiding: false,
+  },
+  {
+    accessorKey: "avatar",
+    header: ({ column }) => <h1 className="text-center capitalize">Avatar</h1>,
+    cell: ({ row }) => (
+      <Avatar className="mx-auto">
+        <AvatarImage src={row.original.image!} />
+        <AvatarFallback>{row.original.name[0].toUpperCase()}</AvatarFallback>
+      </Avatar>
+    ),
   },
   {
     accessorKey: "name",
@@ -79,13 +76,13 @@ export const CustomersColumns: ColumnDef<Customer>[] = [
   },
   {
     accessorKey: "actions",
-    header: "Actions",
+    header: ({ column }) => <h1 className="text-center capitalize">actions</h1>,
     cell: ({ row }) => {
       const [resetIsLoading, setResetIsLoading] = useState(false);
       const [deleteIsLoading, setDeleteIsLoading] = useState(false);
       const [isDone, setIsDone] = useState(false);
       return (
-        <div className="space-x-2">
+        <div className="space-x-2 text-center">
           <Button
             className="cursor-pointer"
             variant="outline"
@@ -140,11 +137,12 @@ export const CustomersColumns: ColumnDef<Customer>[] = [
   },
 ];
 
-export const ProductsColumns: ColumnDef<Product>[] = [
+export const ProductsColumns: ColumnDef<Product_TP>[] = [
   {
     id: "select",
     header: ({ table }) => (
       <Checkbox
+        className="mx-auto"
         checked={
           table.getIsAllPageRowsSelected() ||
           (table.getIsSomePageRowsSelected() && false)
@@ -155,6 +153,7 @@ export const ProductsColumns: ColumnDef<Product>[] = [
     ),
     cell: ({ row }) => (
       <Checkbox
+        className="mx-auto"
         checked={row.getIsSelected()}
         onCheckedChange={(value) => row.toggleSelected(!!value)}
         aria-label="Select row"
@@ -165,7 +164,20 @@ export const ProductsColumns: ColumnDef<Product>[] = [
   },
   {
     accessorKey: "image",
-    header: "Image",
+    header: ({ column }) => <h1 className="text-center capitalize">image</h1>,
+    cell: ({ row }) =>
+      row.original.images ? (
+        <div className="relative mx-auto w-20 h-20 rounded-md overflow-hidden border">
+          <Image
+            className="object-cover transition-transform duration-200 hover:scale-105"
+            fill
+            src={row.original.images[0]}
+            alt={row.original.title}
+          />
+        </div>
+      ) : (
+        <Skeleton className="w-20 h-20 rounded-md" />
+      ),
   },
   {
     accessorKey: "title",
@@ -183,6 +195,7 @@ export const ProductsColumns: ColumnDef<Product>[] = [
   {
     accessorKey: "price",
     header: "Price",
+    cell: ({ row }) => <p>{row.original.price} EGP</p>,
   },
   {
     accessorKey: "rating",
@@ -198,20 +211,26 @@ export const ProductsColumns: ColumnDef<Product>[] = [
   },
   {
     accessorKey: "actions",
-    header: "Actions",
+    header: ({ column }) => <h1 className="text-center capitalize">actions</h1>,
     cell: ({ row }) => {
       const [deleteIsLoading, setDeleteIsLoading] = useState(false);
       return (
-        <div className="space-x-2">
+        <div className="space-x-2 flex justify-center items-center">
+          <Button
+            variant="outline"
+            className="cursor-pointer capitalize"
+            nativeButton={false}
+            render={<Link href={`./products/${row.original.id}`}>edit</Link>}
+          />
           <Button
             variant="destructive"
             disabled={deleteIsLoading}
             onClick={async () => {
-              setDeleteIsLoading(true)
-              await deleteProduct(row.original.id)
-              setDeleteIsLoading(false)
+              setDeleteIsLoading(true);
+              await deleteProduct(row.original.id);
+              setDeleteIsLoading(false);
             }}
-            className="cursor-pointer">
+            className="cursor-pointer capitalize">
             <Trash2 />
             {deleteIsLoading ? "deleting..." : "delete"}
           </Button>

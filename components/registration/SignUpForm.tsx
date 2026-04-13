@@ -62,6 +62,7 @@ export default function SignUpForm() {
           placeholder="enter name"
           type="text"
           error={errors?.name}
+          value={userState?.name}
           onChange={(e) => setUserState({ ...userState, name: e.target.value })}
         />
       </div>
@@ -71,6 +72,7 @@ export default function SignUpForm() {
           placeholder="enter email"
           type="email"
           error={errors?.email}
+          value={userState?.email}
           onChange={(e) =>
             setUserState({ ...userState, email: e.target.value })
           }
@@ -83,6 +85,7 @@ export default function SignUpForm() {
           type="password"
           error={errors?.password}
           minlength={8}
+          value={userState?.password}
           onChange={(e) =>
             setUserState({ ...userState, password: e.target.value })
           }

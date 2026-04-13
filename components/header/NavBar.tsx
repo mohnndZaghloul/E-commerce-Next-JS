@@ -3,9 +3,10 @@ import { useSession } from "@/lib/auth/auth-client";
 import NavLink from "./NavLink";
 import NavDropdownMenu from "./NavDropdownMenu";
 import { ModeToggler } from "./ModeToggler";
+import { Skeleton } from "../ui/skeleton";
 
 export default function NavBar() {
-  const { data } = useSession();
+  const { data, isPending } = useSession();
 
   return (
     <header className="h-12 border-b shadow">
@@ -15,7 +16,11 @@ export default function NavBar() {
           <li>
             <NavLink href="/" text="shop" />
           </li>
-          {data?.user ? (
+          {isPending ? (
+            <li className="w-8 h-8">
+              <Skeleton className="w-8 h-8 rounded-full" />
+            </li>
+          ) : data?.user ? (
             <li>
               <NavDropdownMenu data={data} />
             </li>

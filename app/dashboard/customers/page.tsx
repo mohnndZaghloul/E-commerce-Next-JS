@@ -2,9 +2,19 @@ import { prisma } from "@/lib/prisma";
 import { CustomersColumns } from "@/components/dashboard/tables-columns";
 import { DataTable } from "@/components/dashboard/data-tables/data-table";
 import { User } from "lucide-react";
+import { getRole } from "@/actions/customers-actions";
+import { redirect } from "next/navigation";
 
 export default async function CustomersPage() {
-  const UsersData = await prisma.user.findMany();
+  const role = await getRole();
+  if (role !== "ADMIN") redirect("/dashboard");
+
+  let UsersData;
+  try {
+    UsersData = await prisma.user.findMany();
+  } catch {
+    return <p>some thing went wrong in server</p>;
+  }
 
   return (
     <div className="p-6">

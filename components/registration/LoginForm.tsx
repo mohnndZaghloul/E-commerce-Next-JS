@@ -60,6 +60,7 @@ export default function LoginForm() {
           placeholder="enter email"
           type="email"
           error={errors?.email}
+          value={userState?.email}
           onChange={(e) =>
             setUserState({ ...userState, email: e.target.value })
           }
@@ -72,6 +73,7 @@ export default function LoginForm() {
           type="password"
           error={errors?.password}
           minlength={8}
+          value={userState?.password}
           onChange={(e) =>
             setUserState({ ...userState, password: e.target.value })
           }

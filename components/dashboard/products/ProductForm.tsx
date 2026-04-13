@@ -3,25 +3,57 @@
 import { Box, PlusCircle } from "lucide-react";
 import FormInput from "../../registration/FormInput";
 import { Input } from "../../ui/input";
-import { useActionState, useState } from "react";
-import { addProductAction, ProductFormState } from "@/actions/products-actions";
+import { useActionState, useEffect, useState } from "react";
+import { productFormActions } from "@/actions/products-actions";
 import { Button } from "../../ui/button";
 import ImagesGrid from "./ImagesGrid";
 import ErrorMessage from "@/components/registration/ErrorMessage";
+import { Product_TP, ProductFormActionState_TP } from "@/lib/types";
 
-export default function ProductForm() {
+export default function ProductForm({
+  mode,
+  product,
+}: {
+  mode: string;
+  product: Product_TP | null;
+}) {
+  const initialState: ProductFormActionState_TP = {
+    errors: {},
+    inputs: {
+      title: "",
+      price: "",
+      description: "",
+      tags: "",
+      images: [],
+    },
+  };
   const [state, action, isLoading] = useActionState(
-    addProductAction,
-    {} as ProductFormState,
+    productFormActions.bind(null, {
+      mode,
+      productId: product?.id,
+    }),
+    initialState as ProductFormActionState_TP,
   );
   const [formValues, setFormValues] = useState({
     title: "",
-    price: "",
-    tags: "",
+    price: 0,
+    tags: [""],
     description: "",
   });
   const [imageUrls, setImageUrls] = useState<string[]>([]);
   const [uploadingCount, setUploadingCount] = useState(0);
+
+  useEffect(() => {
+    if (product) {
+      setFormValues({
+        title: product.title,
+        price: product.price,
+        tags: product.tags,
+        description: product.description,
+      });
+      setImageUrls(product.images || []);
+    }
+  }, [product]);
 
   const handleUpload = async (files: FileList) => {
     const filesArray = Array.from(files);
@@ -64,10 +96,17 @@ export default function ProductForm() {
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => {
-    setFormValues((prev) => ({
-      ...prev,
-      [e.target.name]: e.target.value,
-    }));
+    if (e.target.name === "tags") {
+      setFormValues((prev) => ({
+        ...prev,
+        tags: e.target.value.split(",").map((t) => t.trim()),
+      }));
+    } else {
+      setFormValues((prev) => ({
+        ...prev,
+        [e.target.name]: e.target.value,
+      }));
+    }
   };
 
   return (
@@ -95,7 +134,7 @@ export default function ProductForm() {
           minlength={0}
           step="0.01"
           error={state?.errors?.price?.[0]}
-          value={formValues.price}
+          value={formValues.price.toString()}
           onChange={handleChange}
         />
         <FormInput
@@ -103,7 +142,7 @@ export default function ProductForm() {
           placeholder="enter tags"
           type="text"
           error={state?.errors?.tags?.[0]}
-          value={formValues.tags}
+          value={formValues.tags.join(", ")}
           onChange={handleChange}
         />
       </div>
@@ -145,10 +184,16 @@ export default function ProductForm() {
       <ErrorMessage message={state?.errors?.general?.[0]} />
       <Button
         className="cursor-pointer"
-        disabled={uploadingCount > 0}
+        disabled={uploadingCount > 0 || isLoading}
         type="submit">
         <PlusCircle />
-        Add Product
+        {isLoading
+          ? mode === "add-product"
+            ? "Creating..."
+            : "Updating..."
+          : mode === "add-product"
+            ? "Add Product"
+            : "Update Product"}
       </Button>
     </form>
   );

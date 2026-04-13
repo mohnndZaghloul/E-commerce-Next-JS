@@ -25,6 +25,7 @@ import { useState } from "react";
 import TableFilter from "./TableFilter";
 import TablePagination from "./TablePagination";
 import SelectedNumber from "./SelectedNumber";
+import { ProductRowSkeleton } from "../skeletons/ProductRowSkeleton";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -88,20 +89,29 @@ export function DataTable<TData, TValue>({
           </TableHeader>
           <TableBody>
             {table.getRowModel().rows?.length ? (
-              table.getRowModel().rows.map((row) => (
-                <TableRow
-                  key={row.id}
-                  data-state={row.getIsSelected() && "selected"}>
-                  {row.getVisibleCells().map((cell) => (
-                    <TableCell key={cell.id}>
-                      {flexRender(
-                        cell.column.columnDef.cell,
-                        cell.getContext(),
-                      )}
+              table.getRowModel().rows.map((row) =>
+                table ? (
+                  <TableRow
+                    key={row.id}
+                    data-state={row.getIsSelected() && "selected"}>
+                    {row.getVisibleCells().map((cell) => (
+                      <TableCell key={cell.id}>
+                        {flexRender(
+                          cell.column.columnDef.cell,
+                          cell.getContext(),
+                        )}
+                      </TableCell>
+                    ))}
+                  </TableRow>
+                ) : (
+                  <TableRow key={row.id}>
+                    <TableCell></TableCell>
+                    <TableCell colSpan={8}>
+                      <ProductRowSkeleton />
                     </TableCell>
-                  ))}
-                </TableRow>
-              ))
+                  </TableRow>
+                ),
+              )
             ) : (
               <TableRow>
                 <TableCell
