@@ -6,7 +6,6 @@ import {
   BotIcon,
   BookOpenIcon,
   Settings2Icon,
-  FrameIcon,
   BoxIcon,
   User2,
   ListOrderedIcon,
@@ -14,13 +13,15 @@ import {
 } from "lucide-react";
 import { routes } from "@/lib/centralized-routes";
 import { JSX } from "react";
+import { auth } from "@/lib/auth/auth";
+import { headers } from "next/headers";
+
+const session = await auth.api.getSession({
+  headers: await headers(),
+});
 
 export const data = {
-  user: {
-    name: "shadcn",
-    email: "m@example.com",
-    avatar: "/avatars/shadcn.jpg",
-  },
+  user: session?.user,
   teams: [
     {
       name: "Acme Inc",
@@ -123,13 +124,6 @@ export const data = {
           url: "#",
         },
       ],
-    },
-  ],
-  projects: [
-    {
-      name: "Products",
-      url: routes.products,
-      icon: <BoxIcon />,
     },
   ],
 };

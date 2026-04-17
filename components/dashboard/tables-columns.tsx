@@ -12,9 +12,9 @@ import Image from "next/image";
 import { Skeleton } from "../ui/skeleton";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import Link from "next/link";
-import { Customer_TP, Product_TP } from "@/lib/types";
+import { User_TP, Product_TP } from "@/lib/types";
 
-export const CustomersColumns: ColumnDef<Customer_TP>[] = [
+export const CustomersColumns: ColumnDef<User_TP>[] = [
   {
     id: "select",
     header: ({ table }) => (

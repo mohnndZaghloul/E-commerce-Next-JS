@@ -10,17 +10,13 @@ import { Button } from "@/components/ui/button";
 import { registrationValidation } from "@/lib/validation";
 import { signUp } from "@/lib/auth/auth-client";
 
-type Customer_TP = {
+type User_TP = {
   name: string;
   email: string;
   password: string | null;
 };
 
-export default function CustomerEditForm({
-  customer,
-}: {
-  customer: Customer_TP;
-}) {
+export default function CustomerEditForm({ customer }: { customer: User_TP }) {
   const router = useRouter();
   const [userState, setUserState] = useState({ ...customer, password: "" });
   const [isLoading, setIsLoading] = useState(false);

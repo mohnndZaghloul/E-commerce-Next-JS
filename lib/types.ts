@@ -29,12 +29,14 @@ export type ProductFormActionState_TP = {
   success?: boolean;
 };
 
-export type Customer_TP = {
+export type User_TP = {
   id: string;
   name: string;
   email: string;
+  image?: string | null | undefined;
   createdAt: Date;
-  image: string | null;
+  updatedAt: Date;
+  emailVerified: boolean;
   actions?: string;
 };
 

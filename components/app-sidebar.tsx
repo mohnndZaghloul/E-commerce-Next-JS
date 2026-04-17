@@ -11,6 +11,7 @@ import {
 
 import { data, sidebarLinks } from "./dashboard/sidebarData";
 import { getRole } from "@/actions/customers-actions";
+import { NavMain } from "./nav-main";
 
 export async function AppSidebar({
   ...props
