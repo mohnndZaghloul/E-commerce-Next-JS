@@ -14,7 +14,7 @@ export default function ProductCard({
   description,
 }: Product_TP) {
   return (
-    <div className="aspect-square flex flex-col justify-between border rounded-md overflow-hidden">
+    <div className="aspect-square shadow-xl flex flex-col justify-between border rounded-md overflow-hidden">
       <div className="relative h-[60%]">
         <Image
           src={images[0]}
@@ -25,12 +25,15 @@ export default function ProductCard({
       </div>
       <div>
         <div className="flex justify-between items-center p-2 border-b">
-          <h3 className="capitalize text-lg font-semibold">{title}</h3>
-          <div className="flex gap-2">
-            <Badge>
-              {rating} <Star className="fill-secondary-foreground" />
+          <h3 className="capitalize text-lg font-semibold line-clamp-1">
+            {title}
+          </h3>
+          <div className="flex justify-center items-center gap-2 text-nowrap">
+            <Badge
+              className={`${rating > 4 ? "bg-primary" : rating < 4 && rating > 3 ? "bg-amber-500" : rating < 3 && rating > 2 ? "bg-orange-500" : "bg-destructive"}`}>
+              {rating} <Star className="fill-white" />
             </Badge>
-            <Badge>{price} $</Badge>
+            <span className="font-semibold text-xl">{price} EGP</span>
           </div>
         </div>
         <div className="p-2">

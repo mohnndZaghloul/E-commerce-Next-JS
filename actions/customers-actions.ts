@@ -15,6 +15,13 @@ export const getRole = async () => {
   return user?.role;
 };
 
+export const getCurrentUser = async () => {
+  const session = await auth.api.getSession({
+    headers: await headers(),
+  });
+  return session?.user;
+};
+
 export const deleteCustomer = async (id: string) => {
   const session = await auth.api.getSession({ headers: await headers() });
   const role = await getRole();

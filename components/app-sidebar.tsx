@@ -10,13 +10,14 @@ import {
 } from "@/components/ui/sidebar";
 
 import { data, sidebarLinks } from "./dashboard/sidebarData";
-import { getRole } from "@/actions/customers-actions";
+import { getCurrentUser, getRole } from "@/actions/customers-actions";
 import { NavMain } from "./nav-main";
 
 export async function AppSidebar({
   ...props
 }: React.ComponentProps<typeof Sidebar>) {
   const role = await getRole();
+  const user = await getCurrentUser();
   const filteredLinks = sidebarLinks.filter((link) =>
     link.roles.includes(role!),
   );
@@ -31,7 +32,7 @@ export async function AppSidebar({
         <NavProjects projects={filteredLinks} />
       </SidebarContent>
       <SidebarFooter>
-        <NavUser user={data.user} />
+        <NavUser user={user} />
       </SidebarFooter>
       <SidebarRail />
     </Sidebar>
