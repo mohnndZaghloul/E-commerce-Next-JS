@@ -1,3 +1,5 @@
+import { Button } from "@/components/ui/button";
+
 type ImagesGrid_TP = {
   imageUrls: string[];
   handleRemove: (urlToRemove: string) => void;
@@ -11,12 +13,11 @@ export default function ImagesGrid({ imageUrls, handleRemove }: ImagesGrid_TP) {
           {imageUrls.map((url) => (
             <div key={url} className="relative">
               <img src={url} className="w-full h-24 object-cover rounded-md" />
-              <button
-                type="button"
+              <Button
                 onClick={() => handleRemove(url)}
-                className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full w-5 h-5 text-xs">
+                className="cursor-pointer absolute -top-2 -right-2 bg-destructive hover:bg-destructive/80 w-6 h-6 text-xs">
                 ✕
-              </button>
+              </Button>
             </div>
           ))}
         </div>

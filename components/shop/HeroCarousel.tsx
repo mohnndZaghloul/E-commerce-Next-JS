@@ -1,6 +1,8 @@
-import img1 from "@/public/slider/slider1.avif";
-import img2 from "@/public/slider/slider2.gif";
-import img3 from "@/public/slider/slider3.avif";
+import img1 from "@/public/slider/slider1.png";
+import img2 from "@/public/slider/slider2.png";
+import img3 from "@/public/slider/slider3.png";
+import img4 from "@/public/slider/slider4.png";
+
 import {
   Carousel,
   CarouselContent,
@@ -11,22 +13,22 @@ import {
 import Image from "next/image";
 
 export default function HeroCarousel() {
-  const sliderImages = [img1, img2, img3];
+  const sliderImages = [img1, img2, img3, img4];
   return (
     <div className="container my-8">
-      <h1 className="text-5xl font-semibold uppercase text-transparent text-stroke my-8">
+      {/* <h1 className="text-5xl font-semibold uppercase text-transparent text-stroke my-8">
         Carousel Header
-      </h1>
+      </h1> */}
       <Carousel
         opts={{
           align: "start",
           loop: true,
         }}
-        className="aspect-16/4 relative shadow-2xl shadow-card-shadow rounded-3xl overflow-hidden">
+        className="aspect-16/2 relative shadow-2xl shadow-card-shadow rounded-3xl overflow-hidden">
         <CarouselContent>
           {sliderImages.map((image, index) => (
             <CarouselItem key={index}>
-              <div className="relative aspect-16/4">
+              <div className="relative aspect-16/2">
                 <Image
                   src={image}
                   alt="alt"
@@ -40,11 +42,11 @@ export default function HeroCarousel() {
         </CarouselContent>
         <CarouselPrevious
           variant="ghost"
-          className="-left-1 cursor-pointer active:-translate-y-1/2! rounded-2xl h-full w-32"
+          className="-left-1 cursor-pointer hover:opacity-50 active:-translate-y-1/2! rounded-2xl h-full w-32"
         />
         <CarouselNext
           variant="ghost"
-          className="-right-1 cursor-pointer active:-translate-y-1/2! rounded-2xl h-full w-32"
+          className="-right-1 cursor-pointer hover:opacity-50 active:-translate-y-1/2! rounded-2xl h-full w-32"
         />
       </Carousel>
     </div>
