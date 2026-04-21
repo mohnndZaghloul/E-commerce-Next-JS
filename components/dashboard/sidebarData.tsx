@@ -10,6 +10,7 @@ import {
   User2,
   ListOrderedIcon,
   LayoutDashboard,
+  MonitorCog,
 } from "lucide-react";
 import { routes } from "@/lib/centralized-routes";
 import { JSX } from "react";
@@ -144,15 +145,21 @@ export const sidebarLinks: SidebarLink[] = [
     roles: ["ADMIN", "USER"],
   },
   {
+    label: "My Orders",
+    url: "/dashboard/orders",
+    icon: <ListOrderedIcon />,
+    roles: ["ADMIN", "USER"],
+  },
+  {
     label: "Customers",
     url: routes.customers,
     icon: <User2 />,
     roles: ["ADMIN"],
   },
   {
-    label: "My Orders",
-    url: "/dashboard/orders",
-    icon: <ListOrderedIcon />,
-    roles: ["ADMIN", "USER"],
+    label: "System",
+    url: routes.system,
+    icon: <MonitorCog />,
+    roles: ["ADMIN"],
   },
 ];

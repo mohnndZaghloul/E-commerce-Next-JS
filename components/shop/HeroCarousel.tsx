@@ -1,4 +1,6 @@
-import { Card, CardContent } from "@/components/ui/card";
+import img1 from "@/public/slider/slider1.avif";
+import img2 from "@/public/slider/slider2.gif";
+import img3 from "@/public/slider/slider3.avif";
 import {
   Carousel,
   CarouselContent,
@@ -6,8 +8,10 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel";
+import Image from "next/image";
 
 export default function HeroCarousel() {
+  const sliderImages = [img1, img2, img3];
   return (
     <div className="container my-8">
       <h1 className="text-5xl font-semibold uppercase text-transparent text-stroke my-8">
@@ -18,16 +22,18 @@ export default function HeroCarousel() {
           align: "start",
           loop: true,
         }}
-        className="aspect-16/5 relative shadow-2xl shadow-card-shadow rounded-3xl overflow-hidden">
+        className="aspect-16/4 relative shadow-2xl shadow-card-shadow rounded-3xl overflow-hidden">
         <CarouselContent>
-          {Array.from({ length: 5 }).map((_, index) => (
+          {sliderImages.map((image, index) => (
             <CarouselItem key={index}>
-              <div>
-                <Card>
-                  <CardContent className="flex aspect-16/5 items-center justify-center">
-                    <span className="text-4xl font-semibold">{index + 1}</span>
-                  </CardContent>
-                </Card>
+              <div className="relative aspect-16/4">
+                <Image
+                  src={image}
+                  alt="alt"
+                  fill
+                  className="object-cover"
+                  priority={index === 0}
+                />
               </div>
             </CarouselItem>
           ))}
