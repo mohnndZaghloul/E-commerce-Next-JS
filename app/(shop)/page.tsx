@@ -1,9 +1,9 @@
+import { getAllProducts } from "@/actions/products-actions";
 import HeroCarousel from "@/components/shop/HeroCarousel";
 import ProductsSection from "@/components/shop/ProductsSection";
-import { prisma } from "@/lib/prisma";
 
 export default async function ShopPage() {
-  const products = await prisma.product.findMany();
+  const products = await getAllProducts();
   return (
     <div>
       <HeroCarousel />

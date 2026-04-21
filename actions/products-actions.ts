@@ -1,19 +1,18 @@
 "use server";
 
-import { auth } from "@/lib/auth/auth";
 import { prisma } from "@/lib/prisma";
 import { ProductFormActionState_TP, ProductFormErrors } from "@/lib/types";
 import { ProductSchema } from "@/lib/validation";
 import { revalidatePath } from "next/cache";
-import { headers } from "next/headers";
 import { redirect } from "next/navigation";
+import { getCurrentUser } from "./customers-actions";
 
 export const productFormActions = async (
   meta: { mode: string; productId?: string },
   prevState: ProductFormActionState_TP,
   formData: FormData,
 ) => {
-  const session = await auth.api.getSession({ headers: await headers() });
+  const user = await getCurrentUser();
   const rawData = {
     title: (formData.get("title") as string) || "",
     price: (formData.get("price") as string) || "",
@@ -30,7 +29,7 @@ export const productFormActions = async (
     general: [],
   };
 
-  if (!session?.user.id) {
+  if (!user?.id) {
     return {
       errors: {
         ...emptyErrors,
@@ -61,7 +60,7 @@ export const productFormActions = async (
           description,
           tags: tags.split(",").map((t) => t.trim()),
           images,
-          createdById: session?.user?.id,
+          createdById: user?.id,
         },
       });
     } else {
@@ -76,7 +75,7 @@ export const productFormActions = async (
           description,
           tags: tags.split(",").map((t) => t.trim()),
           images,
-          createdById: session?.user?.id,
+          createdById: user?.id,
         },
       });
     }
@@ -88,7 +87,25 @@ export const productFormActions = async (
   }
   redirect("/dashboard/products");
 };
+export const getAllProducts = async () => {
+  return await prisma.product.findMany();
+};
+export const getCurrentUserProducts = async () => {
+  const user = await getCurrentUser();
 
+  try {
+    return await prisma.product.findMany({
+      where: {
+        createdById: user?.id,
+      },
+    });
+  } catch (error) {
+    throw Error(`${error}`);
+  }
+};
+export const getProductById = async (id: string) => {
+  return await prisma.product.findUnique({ where: { id } });
+};
 export const deleteProduct = async (id: string) => {
   await prisma.product.delete({ where: { id } });
   revalidatePath("/dashboard/customers");

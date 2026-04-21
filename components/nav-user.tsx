@@ -18,6 +18,7 @@ import {
 } from "@/components/ui/sidebar";
 import { signOut } from "@/lib/auth/auth-client";
 import { User_TP } from "@/lib/types";
+import { useCartStore } from "@/store/cart";
 import {
   ChevronsUpDownIcon,
   SparklesIcon,
@@ -31,10 +32,13 @@ import { useRouter } from "next/navigation";
 export function NavUser({ user }: { user?: User_TP }) {
   const { isMobile } = useSidebar();
   const router = useRouter();
+  const setCount = useCartStore((state) => state.setCount);
+
   const signOutHandler = async () => {
     const result = await signOut();
     if (result.data) {
       router.replace("/login");
+      setCount(0);
     } else {
       throw Error("error while signing out");
     }

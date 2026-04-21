@@ -12,12 +12,19 @@ import Link from "next/link";
 import { signOut } from "@/lib/auth/auth-client";
 import { useRouter } from "next/navigation";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
+import { useCartStore } from "@/store/cart";
+import { useFavStore } from "@/store/favorite";
 
 export default function NavDropdownMenu({ data }: any) {
   const router = useRouter();
+  const setCartCount = useCartStore((state) => state.setCartCount);
+  const setFavCount = useFavStore((state) => state.setFavCount);
+
   const signOutHandler = async () => {
     const result = await signOut();
     if (result.data) {
+      setCartCount(0);
+      setFavCount(0);
       router.replace("/login");
     } else {
       throw Error("error while signing out");

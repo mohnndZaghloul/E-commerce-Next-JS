@@ -50,7 +50,7 @@ export default function LoginForm() {
   return (
     <form
       onSubmit={loginHandler}
-      className="border p-10 w-full space-y-4 shadow-2xl bg-card rounded-xl">
+      className="border p-10 w-full space-y-4 shadow-2xl shadow-card-shadow bg-card rounded-xl">
       <div className="flex justify-between items-center text-xl capitalize border-b-2">
         <User2Icon size={52} /> login
       </div>
@@ -84,15 +84,15 @@ export default function LoginForm() {
         <Button
           type="submit"
           disabled={isLoading}
-          className="cursor-pointer capitalize w-full rounded bg-primary hover:opacity-80 transition py-4">
+          className="cursor-pointer capitalize w-full rounded-md shadow-2xl shadow-card-shadow py-4">
           {isLoading ? "loading..." : "login"}
         </Button>
         <p>
           has already account ?
           <Link
             className="underline hover:text-primary transition"
-            href="/login">
-            login
+            href="/sign-up">
+            sign up
           </Link>
         </p>
       </div>

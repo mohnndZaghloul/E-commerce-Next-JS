@@ -4,29 +4,27 @@ import { prisma } from "@/lib/prisma";
 import { auth } from "@/lib/auth/auth";
 import { headers } from "next/headers";
 import { revalidatePath } from "next/cache";
+import { getSession } from "@/lib/auth/session";
+import { unauthorized } from "next/navigation";
 
 export const getRole = async () => {
-  const data = await auth.api.getSession({
-    headers: await headers(),
-  });
+  const data = await getSession();
   const user = await prisma.user.findUnique({
     where: { id: data?.user.id },
   });
   return user?.role;
 };
 
-export const getCurrentUser = async () => {
-  const session = await auth.api.getSession({
-    headers: await headers(),
-  });
+export async function getCurrentUser() {
+  const session = await getSession();
   return session?.user;
-};
+}
 
 export const deleteCustomer = async (id: string) => {
-  const session = await auth.api.getSession({ headers: await headers() });
+  const session = await getSession();
   const role = await getRole();
   if (role !== "ADMIN") {
-    throw new Error("Unauthorized");
+    unauthorized();
   }
   const isSelf = session?.user.id === id;
 
@@ -47,8 +45,10 @@ export const updateCustomer = async (
   id: string,
   data: { name: string; email: string; password: string },
 ) => {
-  const session = await auth.api.getSession({ headers: await headers() });
-  if (!session) throw new Error("Unauthorized");
+  const role = await getRole();
+  if (role !== "ADMIN") {
+    unauthorized();
+  }
 
   await prisma.user.update({
     where: { id },

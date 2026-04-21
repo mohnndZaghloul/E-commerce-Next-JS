@@ -10,7 +10,7 @@ import {
 } from "@/components/ui/sidebar";
 
 import { data, sidebarLinks } from "./dashboard/sidebarData";
-import { getCurrentUser, getRole } from "@/actions/customers-actions";
+import { getRole, getCurrentUser } from "@/actions/customers-actions";
 import { NavMain } from "./nav-main";
 
 export async function AppSidebar({

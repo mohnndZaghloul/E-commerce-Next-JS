@@ -4,6 +4,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import NavBar from "@/components/header/NavBar";
 import { cn } from "@/lib/utils";
+import { Toaster } from "@/components/ui/sonner";
 
 const fontSans = Geist({
   subsets: ["latin"],
@@ -39,6 +40,7 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange>
           <NavBar />
+          <Toaster />
           {children}
         </ThemeProvider>
       </body>

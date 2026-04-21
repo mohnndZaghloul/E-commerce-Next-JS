@@ -1,54 +1,84 @@
+"use client";
+
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Product_TP } from "@/lib/types";
 import { Star } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import AddToCartButton from "../shop/AddToCartButton";
+import { RatingStars } from "../shop/RatingStars";
+import FavoriteButton from "../shop/FavoriteButton";
 
 export default function ProductCard({
-  id,
-  title,
-  images,
-  rating,
-  price,
-  description,
-}: Product_TP) {
+  product,
+  isLoggedIn,
+  isShopping = true,
+  isFavorite = false,
+}: {
+  product: Product_TP;
+  isLoggedIn: boolean;
+  isShopping?: boolean;
+  isFavorite?: boolean;
+}) {
   return (
-    <div className="aspect-square shadow-xl flex flex-col justify-between border rounded-md overflow-hidden">
-      <div className="relative h-[60%]">
+    <div className="aspect-5/6 shadow-2xl shadow-card-shadow flex flex-col justify-between border rounded-md overflow-hidden">
+      <div className="relative h-[60%] overflow-hidden">
         <Image
-          src={images[0]}
-          alt={title}
+          src={product.images[0]}
+          alt={product.title}
           fill
-          className="bg-muted w-full object-cover bg-center"
+          className="bg-muted w-full object-cover bg-center hover:scale-105 transition"
         />
+        <FavoriteButton
+          productId={product.id}
+          isFavorite={isFavorite}
+          isLoggedIn={isLoggedIn}
+        />
+        <span className="absolute right-0 bottom-0 bg-muted p-2 font-semibold text-lg">
+          {product.price} EGP
+        </span>
       </div>
       <div>
-        <div className="flex justify-between items-center p-2 border-b">
-          <h3 className="capitalize text-lg font-semibold line-clamp-1">
-            {title}
-          </h3>
-          <div className="flex justify-center items-center gap-2 text-nowrap">
-            <Badge
-              className={`${rating > 4 ? "bg-primary" : rating < 4 && rating > 3 ? "bg-amber-500" : rating < 3 && rating > 2 ? "bg-orange-500" : "bg-destructive"}`}>
-              {rating} <Star className="fill-white" />
-            </Badge>
-            <span className="font-semibold text-xl">{price} EGP</span>
-          </div>
+        <div className="flex justify-between items-center p-2 border-y group hover:bg-muted transition">
+          <Link
+            href={`/products/${product.id}`}
+            className="capitalize cursor-pointer w-full group-hover:text-primary font-semibold line-clamp-1">
+            {product.title}
+          </Link>
+          <Badge
+            className={`${product.rating > 4 ? "bg-primary" : product.rating < 4 && product.rating > 3 ? "bg-amber-300" : product.rating < 3 && product.rating > 2 ? "bg-amber-500" : "bg-destructive"}`}>
+            {product.rating} <Star className="fill-white" />
+          </Badge>
         </div>
         <div className="p-2">
           <p className="text-muted-foreground text-sm line-clamp-3">
-            {description}
+            {product.description}
           </p>
+          <div
+            className={`flex py-1 gap-1 ${product?.rating! > 4 ? "text-primary" : product?.rating! < 4 && product?.rating! > 3 ? "text-amber-300" : product?.rating! < 3 && product?.rating! > 2 ? "text-amber-500" : "text-destructive"}`}>
+            {product?.rating.toFixed(1)}
+            <RatingStars rating={product.rating} size={21} />
+          </div>
         </div>
       </div>
       <div className="bg-muted border-t p-3">
-        <Button
-          variant="outline"
-          className="w-full capitalize"
-          nativeButton={false}
-          render={<Link href={`./dashboard/products/${id}`}>edit</Link>}
-        />
+        {isShopping ? (
+          <AddToCartButton
+            productId={product.id}
+            isLoggedIn={isLoggedIn}
+            className="w-full capitalize cursor-pointer"
+          />
+        ) : (
+          <Button
+            variant="outline"
+            className="w-full capitalize cursor-pointer"
+            nativeButton={false}
+            render={
+              <Link href={`./dashboard/products/${product.id}`}>edit</Link>
+            }
+          />
+        )}
       </div>
     </div>
   );

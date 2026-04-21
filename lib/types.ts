@@ -1,13 +1,32 @@
 export type Product_TP = {
   id: string;
   title: string;
+  description: string;
   price: number;
   rating: number;
-  description: string;
-  tags: string[];
   images: string[];
+  tags: string[];
   createAt: Date;
   actions?: string;
+};
+export type CartProduct_TP = {
+  id: string;
+  quantity: number;
+  createdAt: Date;
+  userId: string;
+  productId: string;
+  product: {
+    id: string;
+    title: string;
+    description: string;
+    price: number;
+    rating: number;
+    images: string[];
+    tags: string[];
+    createAt: Date;
+    UpdateAt: Date;
+    createdById: string | null;
+  };
 };
 
 export type ProductFormActionState_TP = {

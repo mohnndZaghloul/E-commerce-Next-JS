@@ -18,11 +18,11 @@ export default function HeroCarousel() {
           align: "start",
           loop: true,
         }}
-        className="aspect-16/5 relative shadow-xl rounded-3xl overflow-hidden">
+        className="aspect-16/5 relative shadow-2xl shadow-card-shadow rounded-3xl overflow-hidden">
         <CarouselContent>
           {Array.from({ length: 5 }).map((_, index) => (
             <CarouselItem key={index}>
-              <div className="p-1">
+              <div>
                 <Card>
                   <CardContent className="flex aspect-16/5 items-center justify-center">
                     <span className="text-4xl font-semibold">{index + 1}</span>
@@ -34,11 +34,11 @@ export default function HeroCarousel() {
         </CarouselContent>
         <CarouselPrevious
           variant="ghost"
-          className="left-0 active:-translate-y-1/2! rounded-2xl h-full w-32"
+          className="-left-1 cursor-pointer active:-translate-y-1/2! rounded-2xl h-full w-32"
         />
         <CarouselNext
           variant="ghost"
-          className="right-0 active:-translate-y-1/2! rounded-2xl h-full w-32"
+          className="-right-1 cursor-pointer active:-translate-y-1/2! rounded-2xl h-full w-32"
         />
       </Carousel>
     </div>
