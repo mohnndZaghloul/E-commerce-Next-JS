@@ -1,10 +1,15 @@
+import { getCurrentUser } from "@/actions/customers-actions";
 import { getFavProducts } from "@/actions/favorite-actions";
 import { getCurrentUserProducts } from "@/actions/products-actions";
 import ProductCard from "@/components/dashboard/ProductCard";
 import StaticCard from "@/components/dashboard/StaticCard";
 import { Box, HeartIcon } from "lucide-react";
+import { unauthorized } from "next/navigation";
 
 export default async function DashboardPage() {
+  const user = await getCurrentUser();
+  if (!user) unauthorized();
+
   const productsData = await getCurrentUserProducts();
   const favProducts = await getFavProducts();
   const favProductsId = new Set(favProducts.map((fav) => fav.productId));
@@ -34,6 +39,7 @@ export default async function DashboardPage() {
               product={product}
               isShopping={false}
               isFavorite={isFavorite}
+              isLoggedIn={!!user}
             />
           );
         })}

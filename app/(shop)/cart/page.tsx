@@ -1,7 +1,8 @@
 import { getCartProducts } from "@/actions/cart-actions";
 import { getCurrentUser } from "@/actions/customers-actions";
+import CartBoard from "@/components/cart/CartBoard";
 import CartCard from "@/components/cart/CartCard";
-import { notFound, unauthorized } from "next/navigation";
+import { unauthorized } from "next/navigation";
 
 export default async function CartPage() {
   const user = await getCurrentUser();
@@ -20,9 +21,7 @@ export default async function CartPage() {
           </p>
         )}
       </div>
-      <div className="sticky top-4 flex-1 max-h-100 rounded-md border-2">
-        cart board
-      </div>
+      <CartBoard cartProducts={cartProducts} />
     </main>
   );
 }
