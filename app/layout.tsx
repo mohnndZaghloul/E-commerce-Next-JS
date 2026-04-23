@@ -15,7 +15,9 @@ const geistMono = Geist_Mono({ subsets: ["latin"], variable: "--font-mono" });
 
 export const metadata: Metadata = {
   title: "Crow Store",
-  description: "E-commerce Next Js",
+  description:
+    "an E-commerce Next Js full stack project created by Mohannd Zaghloul",
+  keywords: ["commerce", "shop", "store", "shopping"],
 };
 
 export default function RootLayout({

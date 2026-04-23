@@ -3,6 +3,13 @@ import { DataTable } from "@/components/dashboard/data-tables/data-table";
 import { User } from "lucide-react";
 import { getAllUsers, getRole } from "@/actions/customers-actions";
 import { unauthorized } from "next/navigation";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Users | Next Store",
+  description: "page contain users which signed up in this store",
+  keywords: ["users", "customers", "owners", "dashboard"],
+};
 
 export default async function CustomersPage() {
   const role = await getRole();

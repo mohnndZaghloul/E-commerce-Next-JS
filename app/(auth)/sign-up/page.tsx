@@ -1,4 +1,11 @@
 import SignUpForm from "@/components/registration/SignUpForm";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "SIGN UP | Next Store",
+  description: "sign up page to registration for new users",
+  keywords: ["sign up", "registration"],
+};
 
 export default function SignupPage() {
   return (

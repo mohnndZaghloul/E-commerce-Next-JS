@@ -2,7 +2,14 @@ import { getCurrentUser } from "@/actions/customers-actions";
 import { getFavProducts } from "@/actions/favorite-actions";
 import ProductCard from "@/components/dashboard/ProductCard";
 import { Heart } from "lucide-react";
+import { Metadata } from "next";
 import { unauthorized } from "next/navigation";
+
+export const metadata: Metadata = {
+  title: "Favorites | Next Store",
+  description: "favorite page which contain products liked by user",
+  keywords: ["favorite", "favorites"],
+};
 
 export default async function FavoritesPage() {
   const user = await getCurrentUser();
@@ -18,7 +25,7 @@ export default async function FavoritesPage() {
         Favorites List
       </h1>
       {favProduct.length > 0 ? (
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
           {favProduct.map((item) => {
             const isFavorite = favoriteIds.has(item?.product.id);
             return (

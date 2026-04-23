@@ -1,5 +1,12 @@
 import { getAllCategories } from "@/actions/system-actions";
 import CategoriesForm from "@/components/dashboard/system/CategoriesForm";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "System | Next Store",
+  description: "setting page for main system in store",
+  keywords: ["system", "control", "dashboard"],
+};
 
 export default async function SystemPage() {
   const categories = await getAllCategories();

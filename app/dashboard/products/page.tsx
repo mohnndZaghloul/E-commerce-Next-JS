@@ -6,6 +6,13 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { headers } from "next/headers";
 import { auth } from "@/lib/auth/auth";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Owner products | Next Store",
+  description: "page contain products in user store which created by him",
+  keywords: ["products", "owner", "dashboard"],
+};
 
 export default async function ProductsPage() {
   let ProductsData;

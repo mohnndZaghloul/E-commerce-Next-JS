@@ -1,12 +1,17 @@
 import { getCurrentUser } from "@/actions/customers-actions";
 import { getFavProducts } from "@/actions/favorite-actions";
-import {
-  getAllProducts,
-  getProductsByCategoryId,
-} from "@/actions/products-actions";
+import { getProductsByCategoryId } from "@/actions/products-actions";
 import { getAllCategories } from "@/actions/system-actions";
 import HeroCarousel from "@/components/shop/HeroCarousel";
 import ProductsSection from "@/components/shop/ProductsSection";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Home | Next Store",
+  description:
+    "an E-commerce Next Js full stack project created by Mohannd Zaghloul",
+  keywords: ["commerce", "shop", "store", "shopping"],
+};
 
 export default async function ShopPage({
   searchParams,

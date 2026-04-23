@@ -144,12 +144,12 @@ export const sidebarLinks: SidebarLink[] = [
     icon: <BoxIcon />,
     roles: ["ADMIN", "USER"],
   },
-  {
-    label: "My Orders",
-    url: "/dashboard/orders",
-    icon: <ListOrderedIcon />,
-    roles: ["ADMIN", "USER"],
-  },
+  // {
+  //   label: "My Orders",
+  //   url: "/dashboard/orders",
+  //   icon: <ListOrderedIcon />,
+  //   roles: ["ADMIN", "USER"],
+  // },
   {
     label: "Customers",
     url: routes.customers,

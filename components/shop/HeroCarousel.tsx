@@ -1,7 +1,10 @@
+"use client";
+
 import img1 from "@/public/slider/slider1.png";
 import img2 from "@/public/slider/slider2.png";
 import img3 from "@/public/slider/slider3.png";
 import img4 from "@/public/slider/slider4.png";
+import Autoplay from "embla-carousel-autoplay";
 
 import {
   Carousel,
@@ -17,6 +20,12 @@ export default function HeroCarousel() {
   return (
     <div className="container my-4 md:my-8">
       <Carousel
+        plugins={[
+          Autoplay({
+            delay: 2000,
+            stopOnInteraction: true,
+          }),
+        ]}
         opts={{
           align: "start",
           loop: true,

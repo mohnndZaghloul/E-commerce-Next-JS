@@ -2,8 +2,15 @@
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Metadata } from "next";
 import { useSearchParams } from "next/navigation";
 import { useState } from "react";
+
+export const metadata: Metadata = {
+  title: "Reset Password for user | Next Store",
+  description: "page contain products in user store which created by him",
+  keywords: ["password", "reset", "dashboard"],
+};
 
 export default function ResetPasswordPage() {
   const [password, setPassword] = useState("");

@@ -22,13 +22,13 @@ export default function ProductCard({
   isFavorite?: boolean;
 }) {
   return (
-    <div className="aspect-5/6 shadow-2xl shadow-card-shadow border rounded-md overflow-hidden">
-      <div className="relative h-1/2 overflow-hidden">
+    <div className="aspect-5/6 flex flex-col shadow-2xl shadow-card-shadow border rounded-md overflow-hidden">
+      <div className="relative h-1/2 overflow-hidden flex justify-center items-center bg-card">
         <Image
           src={product.images[0]}
           alt={product.title}
           fill
-          className="bg-muted w-full object-cover bg-center hover:scale-105 transition"
+          className="bg-muted w-fit! object-cover mx-auto hover:scale-105 transition"
         />
         <FavoriteButton
           productId={product.id}
@@ -39,7 +39,7 @@ export default function ProductCard({
           {product.price} EGP
         </span>
       </div>
-      <div className="flex flex-col justify-between h-1/2">
+      <div className="flex flex-1 flex-col justify-between">
         <div className="flex justify-between items-center p-2 border-y group hover:bg-muted transition">
           <Link
             href={`/products/${product.id}`}
