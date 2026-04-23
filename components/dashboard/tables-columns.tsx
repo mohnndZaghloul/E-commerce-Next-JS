@@ -13,6 +13,7 @@ import { Skeleton } from "../ui/skeleton";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import Link from "next/link";
 import { User_TP, Product_TP } from "@/lib/types";
+import DeleteButton from "./DeleteButton";
 
 export const CustomersColumns: ColumnDef<User_TP>[] = [
   {
@@ -79,23 +80,19 @@ export const CustomersColumns: ColumnDef<User_TP>[] = [
     header: ({ column }) => <h1 className="text-center capitalize">actions</h1>,
     cell: ({ row }) => {
       const [resetIsLoading, setResetIsLoading] = useState(false);
-      const [deleteIsLoading, setDeleteIsLoading] = useState(false);
       const [isDone, setIsDone] = useState(false);
       return (
         <div className="space-x-2 text-center">
           <Button
             className="cursor-pointer"
             variant="outline"
-            disabled={deleteIsLoading || isDone}
+            disabled={isDone}
             onClick={async () => {
               setResetIsLoading(true);
               const result = await resetPassword(row.original.email);
               setIsDone(result);
               setResetIsLoading(false);
-            }}
-            // nativeButton={false}
-            // render={<Link href={`./customers/${row.original.id}`} />}
-          >
+            }}>
             {resetIsLoading ? (
               "Sending Email..."
             ) : isDone ? (
@@ -110,11 +107,10 @@ export const CustomersColumns: ColumnDef<User_TP>[] = [
               </>
             )}
           </Button>
-          <Button
-            variant="destructive"
-            disabled={deleteIsLoading || resetIsLoading}
+          <DeleteButton
+            title="delete user"
+            description="are you sure you want delete this user?"
             onClick={async () => {
-              setDeleteIsLoading(true);
               const { isSelf } = await deleteCustomer(row.original.id);
               if (isSelf) {
                 await signOut({
@@ -125,12 +121,10 @@ export const CustomersColumns: ColumnDef<User_TP>[] = [
                   },
                 });
               }
-              setDeleteIsLoading(false);
-            }}
-            className="cursor-pointer">
+            }}>
             <Trash2 />
-            {deleteIsLoading ? "deleting..." : "delete"}
-          </Button>
+            delete
+          </DeleteButton>
         </div>
       );
     },
@@ -213,7 +207,6 @@ export const ProductsColumns: ColumnDef<Product_TP>[] = [
     accessorKey: "actions",
     header: ({ column }) => <h1 className="text-center capitalize">actions</h1>,
     cell: ({ row }) => {
-      const [deleteIsLoading, setDeleteIsLoading] = useState(false);
       return (
         <div className="space-x-2 flex justify-center items-center">
           <Button
@@ -222,18 +215,15 @@ export const ProductsColumns: ColumnDef<Product_TP>[] = [
             nativeButton={false}
             render={<Link href={`./products/${row.original.id}`}>edit</Link>}
           />
-          <Button
-            variant="destructive"
-            disabled={deleteIsLoading}
+          <DeleteButton
+            title="delete product"
+            description="are you sure you want delete this product?"
             onClick={async () => {
-              setDeleteIsLoading(true);
               await deleteProduct(row.original.id);
-              setDeleteIsLoading(false);
-            }}
-            className="cursor-pointer capitalize">
+            }}>
             <Trash2 />
-            {deleteIsLoading ? "deleting..." : "delete"}
-          </Button>
+            delete
+          </DeleteButton>
         </div>
       );
     },

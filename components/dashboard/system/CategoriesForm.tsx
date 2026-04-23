@@ -1,6 +1,6 @@
 "use client";
 
-import { addCategoryAction } from "@/actions/system-actions";
+import { addCategoryAction, deleteCategories } from "@/actions/system-actions";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useActionState } from "react";
@@ -23,13 +23,16 @@ export default function CategoriesForm({
         {categories[0] ? (
           categories.map((category) => (
             <p
-              className="relative rounded-md text-xl capitalize p-4 bg-muted border"
+              className="relative rounded-full text-sm md:text-xl capitalize p-4 bg-muted border hover:border-primary transition"
               key={category.id}>
               {category.name}
               <DeleteButton
                 title="delete category"
                 description="are you sure you want delete this category?"
-                id={category.id}>
+                className="cursor-pointer absolute -top-2 -right-2 bg-destructive hover:bg-destructive/80 w-6 h-6 text-xs"
+                onClick={async () => {
+                  await deleteCategories(category?.id);
+                }}>
                 ✕
               </DeleteButton>
             </p>
@@ -44,14 +47,14 @@ export default function CategoriesForm({
         <Input
           required
           minLength={3}
-          className="w-sm text-lg! py-5"
+          className="w-sm md:text-lg! py-5"
           placeholder="Add category"
           name="category"
         />
         <Button
           disabled={isPending}
           type="submit"
-          className="cursor-pointer capitalize text-lg px-4 py-5">
+          className="cursor-pointer capitalize md:text-lg px-4 py-5">
           {isPending ? "adding..." : "add category"}
         </Button>
       </div>

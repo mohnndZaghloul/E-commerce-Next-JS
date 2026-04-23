@@ -1,5 +1,6 @@
+import { getProductById } from "@/actions/products-actions";
+import { getAllCategories } from "@/actions/system-actions";
 import ProductForm from "@/components/dashboard/products/ProductForm";
-import { prisma } from "@/lib/prisma";
 
 export default async function ProductPage({ params }: any) {
   const { productID } = (await params) || "add-product";
@@ -9,11 +10,12 @@ export default async function ProductPage({ params }: any) {
   } else {
     mode = "update-product";
   }
-  const product = await prisma.product.findUnique({ where: { id: productID } });
+  const product = await getProductById(productID);
+  const categories = await getAllCategories();
 
   return (
     <div className="container">
-      <ProductForm mode={mode} product={product} />
+      <ProductForm mode={mode} product={product} categories={categories} />
     </div>
   );
 }

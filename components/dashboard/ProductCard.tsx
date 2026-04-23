@@ -22,8 +22,8 @@ export default function ProductCard({
   isFavorite?: boolean;
 }) {
   return (
-    <div className="aspect-5/6 shadow-2xl shadow-card-shadow flex flex-col justify-between border rounded-md overflow-hidden">
-      <div className="relative h-[60%] overflow-hidden">
+    <div className="aspect-5/6 shadow-2xl shadow-card-shadow border rounded-md overflow-hidden">
+      <div className="relative h-1/2 overflow-hidden">
         <Image
           src={product.images[0]}
           alt={product.title}
@@ -39,7 +39,7 @@ export default function ProductCard({
           {product.price} EGP
         </span>
       </div>
-      <div>
+      <div className="flex flex-col justify-between h-1/2">
         <div className="flex justify-between items-center p-2 border-y group hover:bg-muted transition">
           <Link
             href={`/products/${product.id}`}
@@ -51,7 +51,7 @@ export default function ProductCard({
             {product.rating} <Star className="fill-white" />
           </Badge>
         </div>
-        <div className="p-2">
+        <div className="flex-1 flex flex-col justify-between p-2">
           <p className="text-muted-foreground text-sm line-clamp-3">
             {product.description}
           </p>
@@ -61,24 +61,24 @@ export default function ProductCard({
             <RatingStars rating={product.rating} size={21} />
           </div>
         </div>
-      </div>
-      <div className="bg-muted border-t p-3">
-        {isShopping ? (
-          <AddToCartButton
-            productId={product.id}
-            isLoggedIn={isLoggedIn}
-            className="w-full capitalize cursor-pointer"
-          />
-        ) : (
-          <Button
-            variant="outline"
-            className="w-full capitalize cursor-pointer"
-            nativeButton={false}
-            render={
-              <Link href={`./dashboard/products/${product.id}`}>edit</Link>
-            }
-          />
-        )}
+        <div className="bg-muted border-t p-3">
+          {isShopping ? (
+            <AddToCartButton
+              productId={product.id}
+              isLoggedIn={isLoggedIn}
+              className="w-full capitalize cursor-pointer"
+            />
+          ) : (
+            <Button
+              variant="outline"
+              className="w-full capitalize cursor-pointer"
+              nativeButton={false}
+              render={
+                <Link href={`./dashboard/products/${product.id}`}>edit</Link>
+              }
+            />
+          )}
+        </div>
       </div>
     </div>
   );

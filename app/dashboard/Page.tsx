@@ -14,8 +14,8 @@ export default async function DashboardPage() {
   const favProducts = await getFavProducts();
   const favProductsId = new Set(favProducts.map((fav) => fav.productId));
   return (
-    <div className="flex flex-1 flex-col gap-4 p-4 pt-0">
-      <div className="grid gap-4 lg:grid-cols-2">
+    <div className="container mb-4 space-y-2 md:space-y-4">
+      <div className="grid gap-4 md:grid-cols-2">
         <StaticCard
           title="owner products"
           staticName="products"

@@ -1,6 +1,7 @@
 import { getCurrentUser } from "@/actions/customers-actions";
 import { getFavProducts } from "@/actions/favorite-actions";
 import ProductCard from "@/components/dashboard/ProductCard";
+import { Heart } from "lucide-react";
 import { unauthorized } from "next/navigation";
 
 export default async function FavoritesPage() {
@@ -11,10 +12,13 @@ export default async function FavoritesPage() {
   const favoriteIds = new Set(favProduct.map((fav) => fav.productId));
 
   return (
-    <main className="container my-4">
-      <h1 className="text-4xl font-semibold capitalize py-5">Favorites List</h1>
+    <main className="container my-2 md:my-4">
+      <h1 className="text-2xl md:text-4xl font-semibold capitalize flex items-center gap-2 my-4 md:my-5">
+        <Heart size={32} />
+        Favorites List
+      </h1>
       {favProduct.length > 0 ? (
-        <div className="grid grid-cols-4 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
           {favProduct.map((item) => {
             const isFavorite = favoriteIds.has(item?.product.id);
             return (

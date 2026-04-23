@@ -11,7 +11,7 @@ export default async function CartPage() {
   const cartProducts = await getCartProducts();
 
   return (
-    <main className="relative container my-8 flex gap-4">
+    <main className="relative container my-4 md:my-8 flex flex-col-reverse md:flex-row gap-4">
       <div className="flex-2 space-y-2 rounded-md">
         {cartProducts.length > 0 ? (
           cartProducts.map((item) => <CartCard key={item.id} item={item} />)

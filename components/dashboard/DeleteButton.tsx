@@ -14,25 +14,38 @@ import {
 } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
 import { ReactNode, useState } from "react";
-import { deleteCategories } from "@/actions/system-actions";
 
 export default function DeleteButton({
   children,
   title,
   description,
-  id,
+  className,
+  onClick,
 }: {
   children: ReactNode;
   title: string;
   description: string;
-  id: string;
+  className?: string;
+  onClick?: () => Promise<void> | void;
 }) {
   const [isLoading, setIsLoading] = useState(false);
+  const [open, setOpen] = useState(false);
+
+  const handleAction = async () => {
+    if (!onClick) return;
+    setIsLoading(true);
+    await onClick();
+    setIsLoading(false);
+    setOpen(false);
+  };
+
   return (
-    <AlertDialog>
+    <AlertDialog open={open} onOpenChange={setOpen}>
       <AlertDialogTrigger
         render={
-          <Button className="cursor-pointer absolute -top-2 -right-2 bg-destructive hover:bg-destructive/80 w-6 h-6 text-xs">
+          <Button
+            variant="destructive"
+            className={`cursor-pointer capitalize ${className}`}>
             {children}
           </Button>
         }
@@ -56,10 +69,7 @@ export default function DeleteButton({
           </AlertDialogCancel>
           <AlertDialogAction
             disabled={isLoading}
-            onClick={async () => {
-              setIsLoading(true);
-              await deleteCategories(id);
-            }}
+            onClick={handleAction}
             className="cursor-pointer"
             variant="destructive">
             {isLoading ? "Deleting..." : "Delete"}

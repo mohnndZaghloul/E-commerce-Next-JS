@@ -15,10 +15,14 @@ export const getRole = async () => {
   return user?.role;
 };
 
-export async function getCurrentUser() {
+export const getCurrentUser = async () => {
   const session = await getSession();
   return session?.user;
-}
+};
+
+export const getAllUsers = async () => {
+  return await prisma.user.findMany();
+};
 
 export const deleteCustomer = async (id: string) => {
   const session = await getSession();

@@ -13,14 +13,14 @@ export default function StaticCard({
   staticNumber,
 }: StaticCard_TP) {
   return (
-    <div className="w-full p-5 space-y-10 border capitalize rounded-md bg-linear-to-t from-muted/60 to-muted/20">
+    <div className="w-full p-5 space-y-10 border capitalize rounded-md bg-linear-to-t from-card to-card/20">
       <div className="flex items-center gap-2">
         {icon}
-        <h1 className="text-3xl tracking-widest">{title}</h1>
+        <h1 className="text-2xl md:text-3xl tracking-widest">{title}</h1>
       </div>
-      <div className="text-4xl text-end space-x-2">
+      <div className="text-2xl md:text-4xl text-end space-x-2">
         <span
-          className="text-7xl font-light text-transparent 
+          className="text-4xl md:text-7xl font-light text-transparent 
            text-stroke-2 ">
           {staticNumber}
         </span>

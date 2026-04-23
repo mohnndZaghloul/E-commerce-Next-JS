@@ -1,36 +1,91 @@
-import { Product_TP } from "@/lib/types";
-import ProductCard from "../dashboard/ProductCard";
-import { getFavProducts } from "@/actions/favorite-actions";
-import { getCurrentUser } from "@/actions/customers-actions";
+"use client";
 
-export default async function ProductsSection({
+import { Category_TP, FavProduct_TP, Product_TP, User_TP } from "@/lib/types";
+import ProductCard from "../dashboard/ProductCard";
+import { Button } from "../ui/button";
+import { useTransition } from "react";
+import { useRouter, useSearchParams, usePathname } from "next/navigation";
+import { Loader } from "lucide-react";
+
+export default function ProductsSection({
+  user,
   products,
+  favoriteIds,
+  categories,
 }: {
+  user: User_TP;
   products: Product_TP[];
+  favoriteIds: Set<string>;
+  categories: Category_TP[];
 }) {
-  const user = await getCurrentUser();
-  const favorites = await getFavProducts();
-  const favoriteIds = new Set(favorites.map((fav) => fav.productId));
+  const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+  const [isPending, startTransition] = useTransition();
+
+  const selectedCategories = searchParams.get("categories")?.split(",") ?? [];
+
+  const toggleCategory = (id: string) => {
+    const current = new URLSearchParams(searchParams.toString());
+    const selected = selectedCategories.includes(id)
+      ? selectedCategories.filter((c) => c !== id)
+      : [...selectedCategories, id];
+
+    if (selected.length === 0) {
+      current.delete("categories");
+    } else {
+      current.set("categories", selected.join(","));
+    }
+
+    startTransition(() => {
+      router.push(`${pathname}?${current.toString()}`);
+    });
+  };
 
   return (
-    <div className="container my-16">
-      <h1 className="text-5xl font-semibold uppercase text-transparent text-stroke my-8">
+    <div className="container my-4 md:my-16">
+      <h1 className="text-3xl md:text-5xl font-semibold uppercase text-transparent text-stroke my-4 md:my-8">
         Products Section
       </h1>
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-        {products.map((product) => {
-          let isFavorite;
-          if (!!user) isFavorite = favoriteIds.has(product.id);
+      <h3 className="capitalize text-xl">select category</h3>
+      <div className="flex flex-wrap gap-2 my-4">
+        {categories.map((category) => {
+          const isSelected = selectedCategories.includes(category.id);
           return (
-            <ProductCard
-              key={product.id}
-              product={product}
-              isFavorite={isFavorite}
-              isLoggedIn={!!user}
-            />
+            <Button
+              key={category.id}
+              disabled={isPending}
+              onClick={() => toggleCategory(category.id)}
+              className={`cursor-pointer px-3 py-1 rounded-full text-xs md:text-sm border transition-colors ${
+                isSelected
+                  ? "bg-primary text-primary-foreground border-primary"
+                  : "bg-muted! text-muted-foreground! border-border hover:border-primary!"
+              }`}>
+              {category.name}
+            </Button>
           );
         })}
       </div>
+      {isPending ? (
+        <div className="flex justify-center items-center h-64">
+          <Loader className="animate-spin text-primary " size={40} />
+        </div>
+      ) : (
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+          {products.map((product) => {
+            let isFavorite;
+            if (!!user) isFavorite = favoriteIds.has(product.id);
+            return (
+              <ProductCard
+                key={product.id}
+                product={product}
+                isFavorite={isFavorite}
+                isLoggedIn={!!user}
+              />
+            );
+          })}
+        </div>
+      )}
     </div>
   );
 }

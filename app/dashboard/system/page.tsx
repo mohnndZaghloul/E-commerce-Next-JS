@@ -7,7 +7,7 @@ export default async function SystemPage() {
   return (
     <main className="container">
       <div>
-        <h2 className="capitalize text-3xl">Categories</h2>
+        <h2 className="capitalize text-xl md:text-3xl">Categories</h2>
         <div className="border-y-2 py-8 my-4 ">
           <CategoriesForm categories={categories} />
         </div>

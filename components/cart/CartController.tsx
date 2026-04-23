@@ -19,7 +19,7 @@ export default function CartController({ item }: { item: CartProduct_TP }) {
   const setCartCount = useCartStore((state) => state.setCartCount);
 
   return (
-    <div className="flex justify-between items-center">
+    <div className="flex justify-end md:justify-between items-center">
       <div className="flex justify-center items-center gap-4 border rounded-md overflow-hidden">
         <Button
           disabled={isLoading}
@@ -46,7 +46,7 @@ export default function CartController({ item }: { item: CartProduct_TP }) {
           {isLoading ? <Loader className="animate-spin" /> : <Plus />}
         </Button>
       </div>
-      <div>
+      <div className="hidden md:block">
         <Button
           disabled={isLoading}
           onClick={async () => {
@@ -56,7 +56,7 @@ export default function CartController({ item }: { item: CartProduct_TP }) {
             setIsLoading(false);
           }}
           variant="outline"
-          className="cursor-pointer capitalize">
+          className="cursor-pointer capitalize text-xs md:text-sm">
           <Trash />
           {isLoading ? "loading.." : "remove"}
         </Button>

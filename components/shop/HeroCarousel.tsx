@@ -15,10 +15,7 @@ import Image from "next/image";
 export default function HeroCarousel() {
   const sliderImages = [img1, img2, img3, img4];
   return (
-    <div className="container my-8">
-      {/* <h1 className="text-5xl font-semibold uppercase text-transparent text-stroke my-8">
-        Carousel Header
-      </h1> */}
+    <div className="container my-4 md:my-8">
       <Carousel
         opts={{
           align: "start",

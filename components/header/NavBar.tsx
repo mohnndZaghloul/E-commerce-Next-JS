@@ -37,7 +37,7 @@ export default function NavBar() {
         <ul className="flex h-full items-center gap-5">
           <li>
             <NavLink href="/">
-              <Store /> shop
+              <Store /> <span className="hidden md:inline">shop</span>
             </NavLink>
           </li>
           {isPending ? (
@@ -56,7 +56,7 @@ export default function NavBar() {
                       </Badge>
                     ) : null}
                   </div>
-                  cart
+                  <span className="hidden md:inline">cart</span>
                 </NavLink>
               </li>
               <li>
@@ -69,7 +69,7 @@ export default function NavBar() {
                       </Badge>
                     ) : null}
                   </div>
-                  fav
+                  <span className="hidden md:inline">fav</span>
                 </NavLink>
               </li>
               <li>

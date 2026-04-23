@@ -24,7 +24,7 @@ export default async function ProductsPage() {
   return (
     <div className="p-6">
       <div className="flex justify-between items-center">
-        <h1 className="text-2xl uppercase font-bold mb-4 flex items-center gap-2">
+        <h1 className="text-xl md:text-2xl uppercase font-bold mb-4 flex items-center gap-2">
           <Box />
           your products
         </h1>

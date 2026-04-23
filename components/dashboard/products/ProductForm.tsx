@@ -1,6 +1,6 @@
 "use client";
 
-import { Box, PlusCircle } from "lucide-react";
+import { Box, PlusCircle, Tag } from "lucide-react";
 import FormInput from "../../registration/FormInput";
 import { Input } from "../../ui/input";
 import { useActionState, useEffect, useState } from "react";
@@ -8,14 +8,21 @@ import { productFormActions } from "@/actions/products-actions";
 import { Button } from "../../ui/button";
 import ImagesGrid from "./ImagesGrid";
 import ErrorMessage from "@/components/registration/ErrorMessage";
-import { Product_TP, ProductFormActionState_TP } from "@/lib/types";
+import {
+  Category_TP,
+  Product_TP,
+  ProductFormActionState_TP,
+} from "@/lib/types";
+import { Label } from "@/components/ui/label";
 
 export default function ProductForm({
   mode,
   product,
+  categories,
 }: {
   mode: string;
   product: Product_TP | null;
+  categories: Category_TP[];
 }) {
   const initialState: ProductFormActionState_TP = {
     errors: {},
@@ -42,6 +49,7 @@ export default function ProductForm({
   });
   const [imageUrls, setImageUrls] = useState<string[]>([]);
   const [uploadingCount, setUploadingCount] = useState(0);
+  const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
 
   useEffect(() => {
     if (product) {
@@ -52,8 +60,17 @@ export default function ProductForm({
         description: product.description,
       });
       setImageUrls(product.images || []);
+      if (product.categories) {
+        setSelectedCategories(product.categories.map((c) => c.id));
+      }
     }
   }, [product]);
+
+  const toggleCategory = (id: string) => {
+    setSelectedCategories((prev) =>
+      prev.includes(id) ? prev.filter((c) => c !== id) : [...prev, id],
+    );
+  };
 
   const handleUpload = async (files: FileList) => {
     const filesArray = Array.from(files);
@@ -114,7 +131,8 @@ export default function ProductForm({
       action={action}
       className="border p-10 w-full space-y-4 shadow-2xl bg-card rounded-xl">
       <div className="flex justify-between items-center text-xl capitalize border-b-2">
-        <Box size={52} /> add product
+        <Box size={52} />{" "}
+        {mode == "add-product" ? "add product" : "update product"}
       </div>
       <div>
         <FormInput
@@ -155,6 +173,37 @@ export default function ProductForm({
           error={state?.errors?.description?.[0]}
           value={formValues.description}
           onChange={handleChange}
+        />
+      </div>
+      <div className="space-y-2">
+        <div className="flex items-center gap-2 text-sm font-medium">
+          <Tag size={16} />
+          <Label>Categories</Label>
+        </div>
+
+        <div className="flex flex-wrap gap-2">
+          {categories.map((category) => {
+            const isSelected = selectedCategories.includes(category.id);
+            return (
+              <button
+                key={category.id}
+                type="button"
+                onClick={() => toggleCategory(category.id)}
+                className={`cursor-pointer px-3 py-1 rounded-full text-sm border transition-colors ${
+                  isSelected
+                    ? "bg-primary text-primary-foreground border-primary"
+                    : "bg-muted text-muted-foreground border-border hover:border-primary"
+                }`}>
+                {category.name}
+              </button>
+            );
+          })}
+        </div>
+
+        <input
+          type="hidden"
+          name="categories"
+          value={JSON.stringify(selectedCategories)}
         />
       </div>
       <div className="space-y-2">

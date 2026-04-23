@@ -20,6 +20,9 @@ export const productFormActions = async (
     tags: (formData.get("tags") as string) || "",
     images: JSON.parse((formData.get("images") as string) || "[]"),
   };
+  const categoriesRaw = formData.get("categories") as string;
+  const categoryIds: string[] = JSON.parse(categoriesRaw || "[]");
+
   const emptyErrors: ProductFormErrors = {
     title: [],
     price: [],
@@ -58,6 +61,9 @@ export const productFormActions = async (
           title,
           price,
           description,
+          categories: {
+            connect: categoryIds.map((id) => ({ id })),
+          },
           tags: tags.split(",").map((t) => t.trim()),
           images,
           createdById: user?.id,
@@ -73,6 +79,9 @@ export const productFormActions = async (
           title,
           price,
           description,
+          categories: {
+            connect: categoryIds.map((id) => ({ id })),
+          },
           tags: tags.split(",").map((t) => t.trim()),
           images,
           createdById: user?.id,
@@ -90,6 +99,19 @@ export const productFormActions = async (
 export const getAllProducts = async () => {
   return await prisma.product.findMany();
 };
+export const getProductsByCategoryId = async (categoryIds: string[]) => {
+  return await prisma.product.findMany({
+    where:
+      categoryIds.length > 0
+        ? {
+            categories: {
+              some: { id: { in: categoryIds } },
+            },
+          }
+        : {},
+    include: { categories: true },
+  });
+};
 export const getCurrentUserProducts = async () => {
   const user = await getCurrentUser();
 
@@ -104,7 +126,10 @@ export const getCurrentUserProducts = async () => {
   }
 };
 export const getProductById = async (id: string) => {
-  return await prisma.product.findUnique({ where: { id } });
+  return await prisma.product.findUnique({
+    where: { id },
+    include: { categories: true },
+  });
 };
 export const deleteProduct = async (id: string) => {
   await prisma.product.delete({ where: { id } });

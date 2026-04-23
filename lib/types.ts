@@ -8,10 +8,34 @@ export type Product_TP = {
   tags: string[];
   createAt: Date;
   actions?: string;
+  categories?: {
+    id: string;
+    name: string;
+  }[];
 };
+
+export type Category_TP = { id: string; name: string };
+
 export type CartProduct_TP = {
   id: string;
   quantity: number;
+  createdAt: Date;
+  userId: string;
+  productId: string;
+  product: {
+    id: string;
+    title: string;
+    description: string;
+    price: number;
+    rating: number;
+    images: string[];
+    tags: string[];
+    createAt: Date;
+    UpdateAt: Date;
+    createdById: string | null;
+  };
+};
+export type FavProduct_TP = {
   createdAt: Date;
   userId: string;
   productId: string;

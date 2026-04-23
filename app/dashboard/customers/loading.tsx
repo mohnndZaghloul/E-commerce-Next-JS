@@ -3,9 +3,9 @@ import { Skeleton } from "@/components/ui/skeleton";
 export default function Loading() {
   return (
     <div className="container">
-      <div className="my-8 flex gap-4">
-        <Skeleton className="bg-card flex-1 h-40 rounded-md" />
-        <Skeleton className="bg-card flex-1 h-40 rounded-md" />
+      <div className="my-8 space-y-4">
+        <Skeleton className="bg-card w-[12%] h-4 rounded-md" />
+        <Skeleton className="bg-card w-[36%] h-4 rounded-md" />
       </div>
       <div className="border-2 rounded-md p-10 space-y-4">
         {[1, 2, 3].map((number) => (
