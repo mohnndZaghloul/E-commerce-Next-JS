@@ -32,13 +32,13 @@ import { useRouter } from "next/navigation";
 export function NavUser({ user }: { user?: User_TP }) {
   const { isMobile } = useSidebar();
   const router = useRouter();
-  const setCount = useCartStore((state) => state.setCount);
+  const setCartCount = useCartStore((state) => state.setCartCount);
 
   const signOutHandler = async () => {
     const result = await signOut();
     if (result.data) {
       router.replace("/login");
-      setCount(0);
+      setCartCount(0);
     } else {
       throw Error("error while signing out");
     }
