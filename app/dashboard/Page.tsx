@@ -14,6 +14,8 @@ export const metadata: Metadata = {
   keywords: ["dashboard"],
 };
 
+export const dynamic = "force-dynamic";
+
 export default async function DashboardPage() {
   const user = await getCurrentUser();
   if (!user) unauthorized();
