@@ -11,7 +11,7 @@ export const auth = betterAuth({
     provider: "postgresql",
   }),
   baseURL,
-  trustedOrigins: [baseURL],
+  trustedOrigins: [baseURL, "https://*.vercel.app"],
   emailAndPassword: {
     enabled: true,
     sendResetPassword: async ({ user, url }) => {
