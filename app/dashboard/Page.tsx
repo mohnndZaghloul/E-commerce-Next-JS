@@ -5,7 +5,7 @@ import ProductCard from "@/components/dashboard/ProductCard";
 import StaticCard from "@/components/dashboard/StaticCard";
 import { Box, HeartIcon } from "lucide-react";
 import { Metadata } from "next";
-import { unauthorized } from "next/navigation";
+import { redirect, unauthorized } from "next/navigation";
 
 export const metadata: Metadata = {
   title: "Dashboard | Next Store",
@@ -18,7 +18,7 @@ export const dynamic = "force-dynamic";
 
 export default async function DashboardPage() {
   const user = await getCurrentUser();
-  if (!user) unauthorized();
+  if (!user) redirect("/login");
 
   const productsData = await getCurrentUserProducts();
   const favProducts = await getFavProducts();

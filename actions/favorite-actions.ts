@@ -3,12 +3,11 @@
 import { prisma } from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
 import { getCurrentUser } from "./customers-actions";
-import { unauthorized } from "next/navigation";
+import { redirect, unauthorized } from "next/navigation";
 
 export const toggleFav = async (productId: string) => {
   const user = await getCurrentUser();
-  if (!user) unauthorized();
-
+  if (!user) redirect("/login");
   const itemIsExist = await prisma.userFavorite.findUnique({
     where: {
       userId_productId: {

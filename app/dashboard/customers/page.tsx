@@ -2,7 +2,7 @@ import { CustomersColumns } from "@/components/dashboard/tables-columns";
 import { DataTable } from "@/components/dashboard/data-tables/data-table";
 import { User } from "lucide-react";
 import { getAllUsers, getRole } from "@/actions/customers-actions";
-import { unauthorized } from "next/navigation";
+import { redirect, unauthorized } from "next/navigation";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -13,7 +13,7 @@ export const metadata: Metadata = {
 
 export default async function CustomersPage() {
   const role = await getRole();
-  if (role !== "ADMIN") unauthorized();
+  if (role !== "ADMIN") redirect("/login");
 
   let UsersData;
   try {

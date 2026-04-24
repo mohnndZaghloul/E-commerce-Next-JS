@@ -1,6 +1,6 @@
 "use server";
 
-import { unauthorized } from "next/navigation";
+import { redirect, unauthorized } from "next/navigation";
 import { getRole } from "./customers-actions";
 import { prisma } from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
@@ -8,7 +8,7 @@ import { revalidatePath } from "next/cache";
 export const addCategoryAction = async (prevData: any, formData: FormData) => {
   const role = await getRole();
   if (role !== "ADMIN") {
-    unauthorized();
+    redirect("/login");
   }
   const name = formData.get("category") as string;
   try {
@@ -34,7 +34,7 @@ export const deleteCategories = async (id: string) => {
 export const updateHeroSlider = async (prevState: any, formData: FormData) => {
   const role = await getRole();
   if (role !== "ADMIN") {
-    unauthorized();
+    redirect("/login");
   }
   const images = JSON.parse((formData.get("images") as string) || "[]");
   //still updated

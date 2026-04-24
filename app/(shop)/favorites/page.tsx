@@ -3,7 +3,7 @@ import { getFavProducts } from "@/actions/favorite-actions";
 import ProductCard from "@/components/dashboard/ProductCard";
 import { Heart } from "lucide-react";
 import { Metadata } from "next";
-import { unauthorized } from "next/navigation";
+import { redirect, unauthorized } from "next/navigation";
 
 export const metadata: Metadata = {
   title: "Favorites | Next Store",
@@ -13,7 +13,7 @@ export const metadata: Metadata = {
 
 export default async function FavoritesPage() {
   const user = await getCurrentUser();
-  if (!user) unauthorized();
+  if (!user) redirect("/login");
 
   const favProduct = await getFavProducts();
   const favoriteIds = new Set(favProduct.map((fav) => fav.productId));

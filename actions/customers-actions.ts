@@ -5,7 +5,7 @@ import { auth } from "@/lib/auth/auth";
 import { headers } from "next/headers";
 import { revalidatePath } from "next/cache";
 import { getSession } from "@/lib/auth/session";
-import { unauthorized } from "next/navigation";
+import { redirect, unauthorized } from "next/navigation";
 
 export const getRole = async () => {
   const data = await getSession();
@@ -28,7 +28,7 @@ export const deleteCustomer = async (id: string) => {
   const session = await getSession();
   const role = await getRole();
   if (role !== "ADMIN") {
-    unauthorized();
+    redirect("/login");
   }
   const isSelf = session?.user.id === id;
 
@@ -51,7 +51,7 @@ export const updateCustomer = async (
 ) => {
   const role = await getRole();
   if (role !== "ADMIN") {
-    unauthorized();
+    redirect("/login");
   }
 
   await prisma.user.update({

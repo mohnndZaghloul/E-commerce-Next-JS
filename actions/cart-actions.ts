@@ -4,11 +4,11 @@ import { getSession } from "@/lib/auth/session";
 import { prisma } from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
 import { getCurrentUser } from "./customers-actions";
-import { unauthorized } from "next/navigation";
+import { redirect, unauthorized } from "next/navigation";
 
 export const addToCart = async (productId: string) => {
   const user = await getCurrentUser();
-  if (!user) unauthorized();
+  if (!user) redirect("/login");
 
   const itemIsExist = await prisma.cartItem.findUnique({
     where: {
@@ -36,7 +36,7 @@ export const addToCart = async (productId: string) => {
 
 export const removeFromCart = async (CartItemId: string) => {
   const user = await getCurrentUser();
-  if (!user) unauthorized();
+  if (!user) redirect("/login");
 
   await prisma.cartItem.delete({
     where: { id: CartItemId },
