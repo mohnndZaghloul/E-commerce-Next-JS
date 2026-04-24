@@ -4,16 +4,19 @@ import { prisma } from "../prisma";
 import { nextCookies } from "better-auth/next-js";
 import { sendEmail } from "../send-email";
 
+const baseURL = process.env.BETTER_AUTH_URL!;
+
 export const auth = betterAuth({
   database: prismaAdapter(prisma, {
     provider: "postgresql",
   }),
-  baseURL: "http://localhost:3000",
+  baseURL,
+  trustedOrigins: [baseURL],
   emailAndPassword: {
     enabled: true,
     sendResetPassword: async ({ user, url }) => {
       const token = url.split("/").pop()?.split("?")[0];
-      const customUrl = `http://localhost:3000/reset-password?token=${token}`;
+      const customUrl = `${baseURL}/reset-password?token=${token}`;
       await sendEmail({
         to: user.email,
         subject: "Reset your password",
