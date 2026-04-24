@@ -14,7 +14,7 @@ import { unauthorized } from "next/navigation";
 //   keywords: ["dashboard"],
 // };
 
-// export const dynamic = "force-dynamic";
+export const dynamic = "force-dynamic";
 
 export default async function DashboardPage() {
   // const user = await getCurrentUser();
