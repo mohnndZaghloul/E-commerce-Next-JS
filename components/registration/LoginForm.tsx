@@ -50,7 +50,7 @@ export default function LoginForm() {
   return (
     <form
       onSubmit={loginHandler}
-      className="border p-10 w-full space-y-4 shadow-2xl shadow-card-shadow bg-card rounded-xl">
+      className="border p-5 md:p-10 w-full space-y-4 shadow-2xl shadow-card-shadow bg-card rounded-xl">
       <div className="flex justify-between items-center text-xl capitalize border-b-2">
         <User2Icon size={52} /> login
       </div>
