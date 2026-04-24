@@ -38,7 +38,7 @@ export default function LoginForm() {
     await signIn.email(userState, {
       onSuccess: (res) => {
         setIsLoading(false);
-        router.replace("/dashboard");
+        router.push("/dashboard");
       },
       onError: (errors) => {
         setErrors({ ...result, other: errors?.error?.message! });

@@ -3,7 +3,7 @@ import { getCurrentUser } from "@/actions/customers-actions";
 import CartBoard from "@/components/cart/CartBoard";
 import CartCard from "@/components/cart/CartCard";
 import { Metadata } from "next";
-import { redirect, unauthorized } from "next/navigation";
+import { unauthorized } from "next/navigation";
 
 export const metadata: Metadata = {
   title: "Cart | Next Store",
@@ -13,7 +13,7 @@ export const metadata: Metadata = {
 
 export default async function CartPage() {
   const user = await getCurrentUser();
-  if (!user) redirect("/login");
+  if (!user) unauthorized();
 
   const cartProducts = await getCartProducts();
 
