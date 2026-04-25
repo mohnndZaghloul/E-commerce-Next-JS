@@ -80,6 +80,7 @@ export type User_TP = {
   createdAt: Date;
   updatedAt: Date;
   emailVerified: boolean;
+  role: "ADMIN" | "USER";
   actions?: string;
 };
 

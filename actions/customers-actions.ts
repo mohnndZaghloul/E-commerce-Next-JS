@@ -5,7 +5,8 @@ import { auth } from "@/lib/auth/auth";
 import { headers } from "next/headers";
 import { revalidatePath } from "next/cache";
 import { getSession } from "@/lib/auth/session";
-import { unauthorized } from "next/navigation";
+import { forbidden, unauthorized } from "next/navigation";
+import { UserRole } from "@/generated/prisma/enums";
 
 export const getRole = async () => {
   const data = await getSession();
@@ -13,6 +14,14 @@ export const getRole = async () => {
     where: { id: data?.user.id },
   });
   return user?.role;
+};
+
+export const setRole = async (id: string, role: UserRole) => {
+  await prisma.user.update({
+    where: { id },
+    data: { role: role },
+  });
+  revalidatePath("/dashboard");
 };
 
 export const getCurrentUser = async () => {
@@ -28,7 +37,7 @@ export const deleteCustomer = async (id: string) => {
   const session = await getSession();
   const role = await getRole();
   if (role !== "ADMIN") {
-    unauthorized();
+    forbidden();
   }
   const isSelf = session?.user.id === id;
 
@@ -51,7 +60,7 @@ export const updateCustomer = async (
 ) => {
   const role = await getRole();
   if (role !== "ADMIN") {
-    unauthorized();
+    forbidden();
   }
 
   await prisma.user.update({

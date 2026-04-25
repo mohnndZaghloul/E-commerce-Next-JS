@@ -1,6 +1,10 @@
 "use client";
 
-import { deleteCustomer, resetPassword } from "@/actions/customers-actions";
+import {
+  deleteCustomer,
+  resetPassword,
+  setRole,
+} from "@/actions/customers-actions";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { ColumnDef } from "@tanstack/react-table";
@@ -14,6 +18,14 @@ import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import Link from "next/link";
 import { User_TP, Product_TP } from "@/lib/types";
 import DeleteButton from "./DeleteButton";
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "../ui/select";
 
 export const CustomersColumns: ColumnDef<User_TP>[] = [
   {
@@ -66,6 +78,27 @@ export const CustomersColumns: ColumnDef<User_TP>[] = [
         </Button>
       );
     },
+  },
+  {
+    accessorKey: "role",
+    header: "role",
+    cell: ({ row }) => (
+      <Select
+        defaultValue={row.original.role}
+        onValueChange={async (value) =>
+          await setRole(row.original.id, value as "USER" | "ADMIN")
+        }>
+        <SelectTrigger className="w-full max-w-48">
+          <SelectValue />
+        </SelectTrigger>
+        <SelectContent>
+          <SelectGroup>
+            <SelectItem value="USER">User</SelectItem>
+            <SelectItem value="ADMIN">Admin</SelectItem>
+          </SelectGroup>
+        </SelectContent>
+      </Select>
+    ),
   },
   {
     accessorKey: "createdAt",
