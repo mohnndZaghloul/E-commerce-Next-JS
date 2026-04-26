@@ -17,6 +17,10 @@ export const getRole = async () => {
 };
 
 export const setRole = async (id: string, role: Role_TP) => {
+  const result = await getRole();
+  if (result !== "ADMIN") {
+    forbidden();
+  }
   await prisma.user.update({
     where: { id },
     data: { role: role },

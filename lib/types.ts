@@ -82,7 +82,7 @@ export type User_TP = {
   createdAt: Date;
   updatedAt: Date;
   emailVerified: boolean;
-  role: Role_TP;
+  role?: Role_TP;
   actions?: string;
 };
 
