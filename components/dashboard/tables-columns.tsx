@@ -16,7 +16,7 @@ import Image from "next/image";
 import { Skeleton } from "../ui/skeleton";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import Link from "next/link";
-import { User_TP, Product_TP } from "@/lib/types";
+import { User_TP, Product_TP, Role_TP } from "@/lib/types";
 import DeleteButton from "./DeleteButton";
 import {
   Select,
@@ -86,7 +86,7 @@ export const CustomersColumns: ColumnDef<User_TP>[] = [
       <Select
         defaultValue={row.original.role}
         onValueChange={async (value) =>
-          await setRole(row.original.id, value as "USER" | "ADMIN")
+          await setRole(row.original.id, value as Role_TP)
         }>
         <SelectTrigger className="w-full max-w-48">
           <SelectValue />

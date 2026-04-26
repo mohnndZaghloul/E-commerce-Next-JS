@@ -72,6 +72,8 @@ export type ProductFormActionState_TP = {
   success?: boolean;
 };
 
+export type Role_TP = "USER" | "ADMIN";
+
 export type User_TP = {
   id: string;
   name: string;
@@ -80,7 +82,7 @@ export type User_TP = {
   createdAt: Date;
   updatedAt: Date;
   emailVerified: boolean;
-  role: "ADMIN" | "USER";
+  role: Role_TP;
   actions?: string;
 };
 

@@ -5,8 +5,8 @@ import { auth } from "@/lib/auth/auth";
 import { headers } from "next/headers";
 import { revalidatePath } from "next/cache";
 import { getSession } from "@/lib/auth/session";
-import { forbidden, unauthorized } from "next/navigation";
-import { UserRole } from "@/generated/prisma/enums";
+import { forbidden } from "next/navigation";
+import { Role_TP } from "@/lib/types";
 
 export const getRole = async () => {
   const data = await getSession();
@@ -16,7 +16,7 @@ export const getRole = async () => {
   return user?.role;
 };
 
-export const setRole = async (id: string, role: UserRole) => {
+export const setRole = async (id: string, role: Role_TP) => {
   await prisma.user.update({
     where: { id },
     data: { role: role },
