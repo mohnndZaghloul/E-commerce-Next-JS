@@ -2,7 +2,7 @@ import { CustomersColumns } from "@/components/dashboard/tables-columns";
 import { DataTable } from "@/components/dashboard/data-tables/data-table";
 import { User } from "lucide-react";
 import { getAllUsers, getRole } from "@/actions/customers-actions";
-import { forbidden, unauthorized } from "next/navigation";
+import { forbidden } from "next/navigation";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {

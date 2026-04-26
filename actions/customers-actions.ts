@@ -34,7 +34,7 @@ export const getCurrentUser = async () => {
 };
 
 export const getAllUsers = async () => {
-  return await prisma.user.findMany();
+  return await prisma.user.findMany({ orderBy: { name: "asc" } });
 };
 
 export const deleteCustomer = async (id: string) => {

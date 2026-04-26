@@ -82,23 +82,30 @@ export const CustomersColumns: ColumnDef<User_TP>[] = [
   {
     accessorKey: "role",
     header: "role",
-    cell: ({ row }) => (
-      <Select
-        defaultValue={row.original.role}
-        onValueChange={async (value) =>
-          await setRole(row.original.id, value as Role_TP)
-        }>
-        <SelectTrigger className="w-full max-w-48">
-          <SelectValue />
-        </SelectTrigger>
-        <SelectContent>
-          <SelectGroup>
-            <SelectItem value="USER">User</SelectItem>
-            <SelectItem value="ADMIN">Admin</SelectItem>
-          </SelectGroup>
-        </SelectContent>
-      </Select>
-    ),
+    cell: ({ row }) => {
+      const [currentRole, setCurrentRole] = useState<Role_TP>(
+        row.original.role!,
+      );
+      return (
+        <Select
+          value={currentRole}
+          onValueChange={async (value) => {
+            const newRole = value as Role_TP;
+            setCurrentRole(newRole);
+            await setRole(row.original.id, newRole);
+          }}>
+          <SelectTrigger className="w-full max-w-48">
+            <SelectValue />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectGroup>
+              <SelectItem value="USER">User</SelectItem>
+              <SelectItem value="ADMIN">Admin</SelectItem>
+            </SelectGroup>
+          </SelectContent>
+        </Select>
+      );
+    },
   },
   {
     accessorKey: "createdAt",
