@@ -99,8 +99,8 @@ export const CustomersColumns: ColumnDef<User_TP>[] = [
           </SelectTrigger>
           <SelectContent>
             <SelectGroup>
-              <SelectItem value="USER">User</SelectItem>
-              <SelectItem value="ADMIN">Admin</SelectItem>
+              <SelectItem value={Role_TP.USER}>User</SelectItem>
+              <SelectItem value={Role_TP.ADMIN}>Admin</SelectItem>
             </SelectGroup>
           </SelectContent>
         </Select>

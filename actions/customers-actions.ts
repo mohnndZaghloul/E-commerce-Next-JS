@@ -18,7 +18,7 @@ export const getRole = async () => {
 
 export const setRole = async (id: string, role: Role_TP) => {
   const result = await getRole();
-  if (result !== "ADMIN") {
+  if (result !== Role_TP.ADMIN) {
     forbidden();
   }
   await prisma.user.update({
@@ -40,7 +40,7 @@ export const getAllUsers = async () => {
 export const deleteCustomer = async (id: string) => {
   const session = await getSession();
   const role = await getRole();
-  if (role !== "ADMIN") {
+  if (role !== Role_TP.ADMIN) {
     forbidden();
   }
   const isSelf = session?.user.id === id;
@@ -63,7 +63,7 @@ export const updateCustomer = async (
   data: { name: string; email: string; password: string },
 ) => {
   const role = await getRole();
-  if (role !== "ADMIN") {
+  if (role !== Role_TP.ADMIN) {
     forbidden();
   }
 

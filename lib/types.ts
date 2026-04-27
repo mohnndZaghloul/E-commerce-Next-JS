@@ -35,6 +35,7 @@ export type CartProduct_TP = {
     createdById: string | null;
   };
 };
+
 export type FavProduct_TP = {
   createdAt: Date;
   userId: string;
@@ -72,7 +73,10 @@ export type ProductFormActionState_TP = {
   success?: boolean;
 };
 
-export type Role_TP = "USER" | "ADMIN";
+export enum Role_TP {
+  USER = "USER",
+  ADMIN = "ADMIN",
+}
 
 export type User_TP = {
   id: string;

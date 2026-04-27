@@ -4,10 +4,11 @@ import { forbidden, unauthorized } from "next/navigation";
 import { getRole } from "./customers-actions";
 import { prisma } from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
+import { Role_TP } from "@/lib/types";
 
 export const addCategoryAction = async (prevData: any, formData: FormData) => {
   const role = await getRole();
-  if (role !== "ADMIN") {
+  if (role !== Role_TP.ADMIN) {
     forbidden();
   }
   const name = formData.get("category") as string;
@@ -33,7 +34,7 @@ export const deleteCategories = async (id: string) => {
 
 export const updateHeroSlider = async (prevState: any, formData: FormData) => {
   const role = await getRole();
-  if (role !== "ADMIN") {
+  if (role !== Role_TP.ADMIN) {
     forbidden();
   }
   const images = JSON.parse((formData.get("images") as string) || "[]");
