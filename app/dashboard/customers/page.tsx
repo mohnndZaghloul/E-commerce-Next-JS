@@ -4,6 +4,7 @@ import { User } from "lucide-react";
 import { getAllUsers, getRole } from "@/actions/customers-actions";
 import { forbidden } from "next/navigation";
 import { Metadata } from "next";
+import { Role_TP } from "@/lib/types";
 
 export const metadata: Metadata = {
   title: "Users | Next Store",
@@ -13,7 +14,7 @@ export const metadata: Metadata = {
 
 export default async function CustomersPage() {
   const role = await getRole();
-  if (role !== "ADMIN") forbidden();
+  if (role !== Role_TP.ADMIN) forbidden();
 
   let UsersData;
   try {

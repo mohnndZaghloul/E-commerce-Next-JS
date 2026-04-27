@@ -1,3 +1,5 @@
+import { UserRole } from "../generated/prisma";
+
 export type Product_TP = {
   id: string;
   title: string;
@@ -73,10 +75,7 @@ export type ProductFormActionState_TP = {
   success?: boolean;
 };
 
-export enum Role_TP {
-  USER = "USER",
-  ADMIN = "ADMIN",
-}
+export { UserRole as Role_TP };
 
 export type User_TP = {
   id: string;
@@ -86,7 +85,7 @@ export type User_TP = {
   createdAt: Date;
   updatedAt: Date;
   emailVerified: boolean;
-  role?: Role_TP;
+  role?: UserRole;
   actions?: string;
 };
 
