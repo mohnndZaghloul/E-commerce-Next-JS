@@ -11,11 +11,15 @@ import { Input } from "../ui/input";
 export default function ProductsSection({
   user,
   products,
+  currentPage,
+  totalPages,
   favoriteIds,
   categories,
 }: {
   user: User_TP;
   products: Product_TP[];
+  currentPage: number;
+  totalPages: number;
   favoriteIds: Set<string>;
   categories: Category_TP[];
 }) {
@@ -40,6 +44,16 @@ export default function ProductsSection({
       current.set("categories", selected.join(","));
     }
 
+    current.delete("page");
+
+    startTransition(() => {
+      router.push(`${pathname}?${current.toString()}`);
+    });
+  };
+
+  const goToPage = (page: number) => {
+    const current = new URLSearchParams(searchParams.toString());
+    current.set("page", String(page));
     startTransition(() => {
       router.push(`${pathname}?${current.toString()}`);
     });
@@ -51,7 +65,7 @@ export default function ProductsSection({
 
   const searchHandler = () => {
     const result = products.filter((product) =>
-      product.title.toLowerCase().includes(searchText),
+      product.title.toLowerCase().includes(searchText.toLowerCase()),
     );
     setFilteredProducts(result);
   };
@@ -69,7 +83,6 @@ export default function ProductsSection({
           type="text"
           name="filter"
           placeholder="Search for product"
-          className=""
         />
         <Button
           onClick={searchHandler}
@@ -105,8 +118,7 @@ export default function ProductsSection({
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
           {filteredProducts.map((product) => {
-            let isFavorite;
-            if (!!user) isFavorite = favoriteIds.has(product.id);
+            const isFavorite = !!user ? favoriteIds.has(product.id) : undefined;
             return (
               <ProductCard
                 key={product.id}
@@ -116,6 +128,36 @@ export default function ProductsSection({
               />
             );
           })}
+        </div>
+      )}
+      {totalPages > 1 && (
+        <div className="flex justify-center items-center gap-2 mt-8">
+          <Button
+            className="cursor-pointer"
+            variant="outline"
+            disabled={currentPage <= 1 || isPending}
+            onClick={() => goToPage(currentPage - 1)}>
+            Previous
+          </Button>
+
+          {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
+            <Button
+              className="cursor-pointer"
+              key={page}
+              variant={page === currentPage ? "default" : "outline"}
+              disabled={isPending}
+              onClick={() => goToPage(page)}>
+              {page}
+            </Button>
+          ))}
+
+          <Button
+            className="cursor-pointer"
+            variant="outline"
+            disabled={currentPage >= totalPages || isPending}
+            onClick={() => goToPage(currentPage + 1)}>
+            Next
+          </Button>
         </div>
       )}
     </div>

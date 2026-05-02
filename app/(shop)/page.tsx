@@ -16,13 +16,17 @@ export const metadata: Metadata = {
 export default async function ShopPage({
   searchParams,
 }: {
-  searchParams: { categories?: string };
+  searchParams: { categories?: string; page?: string };
 }) {
-  const { categories } = await searchParams;
+  const { categories, page } = await searchParams;
   const categoryIds = categories?.split(",") ?? [];
+  const currentPage = Number(page) || 1;
 
   const user = await getCurrentUser();
-  const products = await getProductsByCategoryId(categoryIds);
+  const { products, total, totalPages } = await getProductsByCategoryId(
+    categoryIds,
+    currentPage,
+  );
   const favorites = await getFavProducts();
   const allCategories = await getAllCategories();
   const favoriteIds = new Set(favorites.map((fav) => fav.productId));
@@ -33,6 +37,8 @@ export default async function ShopPage({
       <ProductsSection
         user={user!}
         products={products}
+        currentPage={currentPage}
+        totalPages={totalPages}
         favoriteIds={favoriteIds}
         categories={allCategories}
       />

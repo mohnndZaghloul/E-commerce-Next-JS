@@ -99,18 +99,31 @@ export const productFormActions = async (
 export const getAllProducts = async () => {
   return await prisma.product.findMany();
 };
-export const getProductsByCategoryId = async (categoryIds: string[]) => {
-  return await prisma.product.findMany({
-    where:
-      categoryIds.length > 0
-        ? {
-            categories: {
-              some: { id: { in: categoryIds } },
-            },
-          }
-        : {},
-    include: { categories: true },
-  });
+export const getProductsByCategoryId = async (
+  categoryIds: string[],
+  page: number = 1,
+  pageSize: number = 8,
+) => {
+  const where =
+    categoryIds.length > 0
+      ? { categories: { some: { id: { in: categoryIds } } } }
+      : {};
+
+  const [products, total] = await Promise.all([
+    prisma.product.findMany({
+      where,
+      include: { categories: true },
+      skip: (page - 1) * pageSize,
+      take: pageSize,
+    }),
+    prisma.product.count({ where }),
+  ]);
+
+  return {
+    products,
+    total,
+    totalPages: Math.ceil(total / pageSize),
+  };
 };
 export const getCurrentUserProducts = async () => {
   const user = await getCurrentUser();
