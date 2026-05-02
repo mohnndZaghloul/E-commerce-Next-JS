@@ -1,11 +1,12 @@
 "use client";
 
-import { Category_TP, FavProduct_TP, Product_TP, User_TP } from "@/lib/types";
+import { Category_TP, Product_TP, User_TP } from "@/lib/types";
 import ProductCard from "../dashboard/ProductCard";
 import { Button } from "../ui/button";
-import { useTransition } from "react";
+import { useEffect, useState, useTransition } from "react";
 import { useRouter, useSearchParams, usePathname } from "next/navigation";
-import { Loader } from "lucide-react";
+import { Loader, Search } from "lucide-react";
+import { Input } from "../ui/input";
 
 export default function ProductsSection({
   user,
@@ -22,6 +23,8 @@ export default function ProductsSection({
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const [isPending, startTransition] = useTransition();
+  const [searchText, setSearchText] = useState("");
+  const [filteredProducts, setFilteredProducts] = useState(products);
 
   const selectedCategories = searchParams.get("categories")?.split(",") ?? [];
 
@@ -42,11 +45,40 @@ export default function ProductsSection({
     });
   };
 
+  useEffect(() => {
+    setFilteredProducts(products);
+  }, [products]);
+
+  const searchHandler = () => {
+    const result = products.filter((product) =>
+      product.title.toLowerCase().includes(searchText),
+    );
+    setFilteredProducts(result);
+  };
+
   return (
     <div className="container my-4 md:my-16">
       <h1 className="text-3xl md:text-5xl font-semibold uppercase text-transparent text-stroke my-4 md:my-8">
         Products Section
       </h1>
+      <h3 className="capitalize text-xl">search by title</h3>
+      <div className="flex items-center gap-2">
+        <Input
+          onChange={(e) => setSearchText(e.target.value)}
+          value={searchText}
+          type="text"
+          name="filter"
+          placeholder="Search for product"
+          className=""
+        />
+        <Button
+          onClick={searchHandler}
+          size="lg"
+          className="w-3xs capitalize cursor-pointer">
+          <Search />
+          search
+        </Button>
+      </div>
       <h3 className="capitalize text-xl">select category</h3>
       <div className="flex flex-wrap gap-2 my-4">
         {categories.map((category) => {
@@ -72,7 +104,7 @@ export default function ProductsSection({
         </div>
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-          {products.map((product) => {
+          {filteredProducts.map((product) => {
             let isFavorite;
             if (!!user) isFavorite = favoriteIds.has(product.id);
             return (

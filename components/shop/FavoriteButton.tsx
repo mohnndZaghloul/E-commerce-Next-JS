@@ -44,9 +44,7 @@ export default function FavoriteButton({
         {isLoading ? (
           <Loader className="animate-spin" />
         ) : (
-          <Heart
-            className={`${isFavorite ? "fill-secondary-foreground" : ""}`}
-          />
+          <Heart className={`${isFavorite && "fill-secondary-foreground"}`} />
         )}
       </Button>
       <AuthDialog
