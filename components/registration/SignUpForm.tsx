@@ -15,12 +15,14 @@ export default function SignUpForm() {
   const [userState, setUserState] = useState({
     name: "",
     email: "",
+    phone: "",
     password: "",
   });
   const [isLoading, setIsLoading] = useState(false);
   const [errors, setErrors] = useState({
     name: "",
     email: "",
+    phone: "",
     password: "",
     other: "",
   });
@@ -75,6 +77,18 @@ export default function SignUpForm() {
           value={userState?.email}
           onChange={(e) =>
             setUserState({ ...userState, email: e.target.value })
+          }
+        />
+      </div>
+      <div>
+        <FormInput
+          name="phone"
+          placeholder="enter phone"
+          type="text"
+          error={errors?.phone}
+          value={userState?.phone}
+          onChange={(e) =>
+            setUserState({ ...userState, phone: e.target.value })
           }
         />
       </div>

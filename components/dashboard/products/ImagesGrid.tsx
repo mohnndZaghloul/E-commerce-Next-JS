@@ -10,9 +10,13 @@ export default function ImagesGrid({ imageUrls, handleRemove }: ImagesGrid_TP) {
     <>
       {imageUrls.length > 0 && (
         <div className="grid grid-cols-3 gap-2 mt-2">
-          {imageUrls.map((url) => (
-            <div key={url} className="relative">
-              <img src={url} className="w-full h-24 object-cover rounded-md" />
+          {imageUrls.map((url, index) => (
+            <div key={`${url}-${index}`} className="relative">
+              <img
+                src={url}
+                alt="image"
+                className="w-full h-24 object-cover rounded-md"
+              />
               <Button
                 onClick={() => handleRemove(url)}
                 className="cursor-pointer absolute -top-2 -right-2 bg-destructive hover:bg-destructive/80 w-6 h-6 text-xs">

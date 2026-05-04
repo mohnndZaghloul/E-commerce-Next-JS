@@ -3,11 +3,12 @@ import { z } from "zod";
 type UserState_TP = {
   name?: string;
   email: string;
+  phone?: string;
   password: string;
 };
 
 export function registrationValidation(userState: UserState_TP) {
-  let errors = { name: "", email: "", password: "", other: "" };
+  let errors = { name: "", email: "", password: "", phone: "", other: "" };
 
   if (!userState.name || userState.name.trim().length === 0) {
     errors.name = "name is required";
@@ -18,8 +19,11 @@ export function registrationValidation(userState: UserState_TP) {
   if (!userState.email) {
     errors.email = "email is required";
   }
+  if (!userState.phone || userState.phone.trim().length < 10) {
+    errors.phone = "phone is required and should be more than 10 digits";
+  }
   if (userState.password.length < 8) {
-    errors.password = "password must be 8 digit or more";
+    errors.password = "password must be 8 digits or more";
   }
   return errors;
 }
@@ -45,4 +49,3 @@ export const ProductSchema = z.object({
     .array(z.string().url("Invalid image URL"))
     .min(1, "At least one image is required"),
 });
-

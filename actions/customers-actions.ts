@@ -30,7 +30,8 @@ export const setRole = async (id: string, role: Role_TP) => {
 
 export const getCurrentUser = async () => {
   const session = await getSession();
-  return session?.user;
+  if (!session?.user?.id) return null;
+  return await prisma.user.findUnique({ where: { id: session?.user.id } });
 };
 
 export const getAllUsers = async () => {

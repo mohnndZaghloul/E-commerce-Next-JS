@@ -11,7 +11,6 @@ import {
 
 import { data, sidebarLinks } from "./dashboard/sidebarData";
 import { getRole, getCurrentUser } from "@/actions/customers-actions";
-import { NavMain } from "./nav-main";
 
 export async function AppSidebar({
   ...props
@@ -28,11 +27,10 @@ export async function AppSidebar({
         <TeamSwitcher teams={data.teams} />
       </SidebarHeader>
       <SidebarContent>
-        {/* <NavMain items={data.navMain} /> */}
         <NavProjects projects={filteredLinks} />
       </SidebarContent>
       <SidebarFooter>
-        <NavUser user={user} />
+        <NavUser user={user!} />
       </SidebarFooter>
       <SidebarRail />
     </Sidebar>

@@ -55,7 +55,7 @@ export default function ProductForm({
     if (product) {
       setFormValues({
         title: product.title,
-        price: product.price,
+        price: Number(product.price),
         tags: product.tags,
         description: product.description,
       });
@@ -78,21 +78,23 @@ export default function ProductForm({
 
     const uploadPromises = filesArray.map(async (file) => {
       const sigRes = await fetch("/api/cloudinary-sign", { method: "POST" });
-      const { timestamp, signature } = await sigRes.json();
+      const { timestamp, signature, cloudName, apiKey } = await sigRes.json();
 
       const formData = new FormData();
       formData.append("file", file);
-      formData.append("api_key", process.env.NEXT_PUBLIC_CLOUDINARY_API_KEY!);
+      formData.append("api_key", apiKey);
       formData.append("timestamp", timestamp.toString());
       formData.append("signature", signature);
       formData.append("folder", "products");
 
       const res = await fetch(
-        "https://api.cloudinary.com/v1_1/dga5szew1/image/upload",
+        `https://api.cloudinary.com/v1_1/${cloudName}/image/upload`,
         { method: "POST", body: formData },
       );
 
       const data = await res.json();
+      if (!data.secure_url)
+        throw new Error(data.error?.message || "Upload failed");
       return data.secure_url as string;
     });
 

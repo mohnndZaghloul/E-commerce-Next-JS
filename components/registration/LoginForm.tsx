@@ -29,6 +29,7 @@ export default function LoginForm() {
     setIsLoading(true);
     const result = registrationValidation(userState);
     result.name = "";
+    result.phone = "";
     if (Object.values(result).some(Boolean)) {
       setErrors(result);
       setIsLoading(false);

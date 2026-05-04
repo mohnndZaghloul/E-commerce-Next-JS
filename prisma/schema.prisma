@@ -12,6 +12,7 @@ model User {
   role            UserRole       @default(USER)
   name            String
   email           String         @unique
+  phone           String?
   password        String?
   image           String?
   emailVerified   Boolean        @default(false)
@@ -20,10 +21,11 @@ model User {
   createdProducts Product[]      @relation("createdBy")
   favorites       UserFavorite[]
   cartItems       CartItem[]
+  orders          Order[]
   accounts        Account[]
   sessions        Session[]
 
-  @@index([id])
+  @@index([email])
   @@map("user")
 }
 
@@ -42,6 +44,28 @@ model Product {
   categories  Category[]     @relation("CategoryToProduct")
   favoritedBy UserFavorite[]
   cartItems   CartItem[]
+
+  @@index([createdById])
+  @@index([price])
+  @@map("product")
+}
+
+model Order {
+  id                  String   @id @default(uuid())
+  userId              String
+  user                User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  amount              Int
+  currency            String   @default("EGP")
+  status              String   @default("PENDING")
+  paymobOrderId       String?  @unique
+  paymobTransactionId String?  @unique
+  items               Json?
+  createdAt           DateTime @default(now())
+  updatedAt           DateTime @updatedAt
+
+  @@index([userId])
+  @@index([status])
+  @@map("order")
 }
 
 model UserFavorite {
@@ -60,11 +84,11 @@ model CartItem {
   id        String   @id @default(uuid())
   quantity  Int      @default(1)
   createdAt DateTime @default(now())
-
+  updatedAt DateTime @updatedAt
   userId    String
   productId String
-  user      User    @relation(fields: [userId], references: [id], onDelete: Cascade)
-  product   Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
 
   @@unique([userId, productId])
   @@map("cart_item")
@@ -74,6 +98,8 @@ model Category {
   id       String    @id @default(uuid())
   name     String    @unique
   products Product[] @relation("CategoryToProduct")
+
+  @@map("category")
 }
 
 model Session {

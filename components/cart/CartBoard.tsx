@@ -1,8 +1,7 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
 import { CartProduct_TP } from "@/lib/types";
-import { toast } from "sonner";
+import CheckoutButton from "./CheckoutButton";
 
 export default function CartBoard({
   cartProducts,
@@ -12,6 +11,13 @@ export default function CartBoard({
   const totalPrice = cartProducts.reduce((acc, item) => {
     return acc + item.quantity * item.product.price;
   }, 0);
+
+  const checkoutItems = cartProducts.map((item) => ({
+    title: item.product.title,
+    price: item.product.price,
+    quantity: item.quantity,
+  }));
+
   return (
     <div className="sticky top-4 bg-card flex-1 h-fit rounded-md border-2">
       <div className="flex flex-col h-full justify-between gap-4 p-4">
@@ -27,21 +33,7 @@ export default function CartBoard({
             <span className="font-thin">EGP</span> {totalPrice.toFixed(2)}
           </p>
         </div>
-        <Button
-          onClick={() => {
-            if (cartProducts[0]) {
-              toast.info("function is not finished yet.", {
-                position: "top-center",
-              });
-            } else {
-              toast.info("Cart is empty now.", {
-                position: "top-center",
-              });
-            }
-          }}
-          className="cursor-pointer uppercase text-xl p-6 w-full">
-          checkout
-        </Button>
+        <CheckoutButton items={checkoutItems} />
       </div>
     </div>
   );

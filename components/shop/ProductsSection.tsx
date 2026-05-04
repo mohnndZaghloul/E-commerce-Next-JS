@@ -115,7 +115,7 @@ export default function ProductsSection({
         <div className="flex justify-center items-center h-64">
           <Loader className="animate-spin text-primary " size={40} />
         </div>
-      ) : (
+      ) : filteredProducts[0] ? (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
           {filteredProducts.map((product) => {
             const isFavorite = !!user ? favoriteIds.has(product.id) : undefined;
@@ -128,6 +128,10 @@ export default function ProductsSection({
               />
             );
           })}
+        </div>
+      ) : (
+        <div className="bg-card border p-10 rounded-2xl">
+          <p className="text-center text-3xl uppercase">no product found</p>
         </div>
       )}
       {totalPages > 1 && (
