@@ -5,7 +5,7 @@ export default function loading() {
     <main className="container max-h-screen my-8">
       <section className="flex gap-8">
         <div className="flex-1">
-          <Skeleton className="rounded-2xl bg-card w-full aspect-5/4" />
+          <Skeleton className="rounded-xl bg-card w-full aspect-5/4" />
         </div>
         <div className="flex-1 flex flex-col justify-between">
           <div>

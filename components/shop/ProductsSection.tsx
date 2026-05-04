@@ -75,8 +75,8 @@ export default function ProductsSection({
       <h1 className="text-3xl md:text-5xl font-semibold uppercase text-transparent text-stroke my-4 md:my-8">
         Products Section
       </h1>
-      <h3 className="capitalize text-xl">search by title</h3>
-      <div className="flex items-center gap-2">
+      <h3 className="capitalize md:text-xl">search by title</h3>
+      <div className="flex items-center gap-2 my-2">
         <Input
           onChange={(e) => setSearchText(e.target.value)}
           value={searchText}
@@ -87,12 +87,12 @@ export default function ProductsSection({
         <Button
           onClick={searchHandler}
           size="lg"
-          className="w-3xs capitalize cursor-pointer">
+          className="md:w-3xs capitalize cursor-pointer">
           <Search />
           search
         </Button>
       </div>
-      <h3 className="capitalize text-xl">select category</h3>
+      <h3 className="capitalize md:text-xl">select category</h3>
       <div className="flex flex-wrap gap-2 my-4">
         {categories.map((category) => {
           const isSelected = selectedCategories.includes(category.id);
@@ -130,7 +130,7 @@ export default function ProductsSection({
           })}
         </div>
       ) : (
-        <div className="bg-card border p-10 rounded-2xl">
+        <div className="bg-card border p-10 rounded-xl">
           <p className="text-center text-3xl uppercase">no product found</p>
         </div>
       )}

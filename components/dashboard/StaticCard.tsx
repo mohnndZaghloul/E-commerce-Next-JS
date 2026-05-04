@@ -13,7 +13,7 @@ export default function StaticCard({
   staticNumber,
 }: StaticCard_TP) {
   return (
-    <div className="w-full p-5 space-y-10 border capitalize rounded-md bg-linear-to-t from-card to-card/20">
+    <div className="w-full p-5 space-y-10 border capitalize rounded-xl bg-linear-to-t from-card to-card/20">
       <div className="flex items-center gap-2">
         {icon}
         <h1 className="text-2xl md:text-3xl tracking-widest">{title}</h1>

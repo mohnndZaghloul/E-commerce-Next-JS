@@ -67,7 +67,7 @@ export function DataTable<TData, TValue>({
   return (
     <>
       <TableFilter table={table} filter={filter} />
-      <div className="overflow-hidden rounded-md border">
+      <div className="overflow-hidden rounded-xl border">
         <Table>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (

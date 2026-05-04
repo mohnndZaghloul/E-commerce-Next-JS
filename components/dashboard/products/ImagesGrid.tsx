@@ -15,7 +15,7 @@ export default function ImagesGrid({ imageUrls, handleRemove }: ImagesGrid_TP) {
               <img
                 src={url}
                 alt="image"
-                className="w-full h-24 object-cover rounded-md"
+                className="w-full h-24 object-cover rounded-xl"
               />
               <Button
                 onClick={() => handleRemove(url)}

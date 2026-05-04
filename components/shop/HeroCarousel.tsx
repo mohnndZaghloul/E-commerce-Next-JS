@@ -48,11 +48,11 @@ export default function HeroCarousel() {
         </CarouselContent>
         <CarouselPrevious
           variant="ghost"
-          className="-left-1 cursor-pointer hover:opacity-50 active:-translate-y-1/2! rounded-2xl h-full w-32"
+          className="-left-1 cursor-pointer hover:opacity-50 active:-translate-y-1/2! rounded-xl h-full w-32"
         />
         <CarouselNext
           variant="ghost"
-          className="-right-1 cursor-pointer hover:opacity-50 active:-translate-y-1/2! rounded-2xl h-full w-32"
+          className="-right-1 cursor-pointer hover:opacity-50 active:-translate-y-1/2! rounded-xl h-full w-32"
         />
       </Carousel>
     </div>

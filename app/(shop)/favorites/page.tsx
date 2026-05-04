@@ -21,7 +21,7 @@ export default async function FavoritesPage() {
   return (
     <main className="container my-2 md:my-4">
       <h1 className="text-2xl md:text-4xl font-semibold capitalize flex items-center gap-2 my-4 md:my-5">
-        <Heart size={32} />
+        <Heart size={30} />
         Favorites List
       </h1>
       {favProduct.length > 0 ? (
@@ -39,7 +39,7 @@ export default async function FavoritesPage() {
           })}
         </div>
       ) : (
-        <p className="text-3xl text-center capitalize border-2 p-10 rounded-md w-full">
+        <p className="bg-card text-lg lg:text-3xl text-center capitalize border-2 p-8 lg:p-16 rounded-xl w-full">
           no product in favorite
         </p>
       )}

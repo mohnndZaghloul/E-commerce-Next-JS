@@ -19,15 +19,15 @@ export default function CartBoard({
   }));
 
   return (
-    <div className="sticky top-4 bg-card flex-1 h-fit rounded-md border-2">
+    <div className="sticky top-4 bg-card flex-1 h-fit rounded-xl border-2">
       <div className="flex flex-col h-full justify-between gap-4 p-4">
-        <h2 className="text-2xl">
+        <h2 className="text-xl md:text-2xl">
           Order Summary{" "}
           <span className="text-muted-foreground text-lg">
             ({cartProducts.length.toString()} items)
           </span>
         </h2>
-        <div className="flex justify-between items-center capitalize text-xl">
+        <div className="flex justify-between items-center capitalize md:text-xl">
           <p>total</p>
           <p>
             <span className="font-thin">EGP</span> {totalPrice.toFixed(2)}

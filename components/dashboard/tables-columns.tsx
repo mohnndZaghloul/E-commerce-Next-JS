@@ -201,7 +201,7 @@ export const ProductsColumns: ColumnDef<Product_TP>[] = [
     header: ({ column }) => <h1 className="text-center capitalize">image</h1>,
     cell: ({ row }) =>
       row.original.images ? (
-        <div className="relative mx-auto w-20 h-20 rounded-md overflow-hidden border">
+        <div className="relative mx-auto w-20 h-20 rounded-xl overflow-hidden border">
           <Image
             className="object-cover transition-transform duration-200 hover:scale-105"
             fill
@@ -210,7 +210,7 @@ export const ProductsColumns: ColumnDef<Product_TP>[] = [
           />
         </div>
       ) : (
-        <Skeleton className="w-20 h-20 rounded-md" />
+        <Skeleton className="w-20 h-20 rounded-xl" />
       ),
   },
   {

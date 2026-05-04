@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
+import { HandCoins } from "lucide-react";
 
 export default function CheckoutButton({
   items,
@@ -44,9 +45,10 @@ export default function CheckoutButton({
   return (
     <Button
       onClick={handleCheckout}
-      disabled={loading}
+      disabled={!items[0] || loading}
       size="lg"
-      className="cursor-pointer uppercase text-xl p-6 w-full">
+      className="cursor-pointer uppercase text-lg md:text-xl p-6 w-full">
+      <HandCoins />
       {loading ? "paying..." : "checkout"}
     </Button>
   );

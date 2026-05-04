@@ -20,7 +20,7 @@ export default function CartController({ item }: { item: CartProduct_TP }) {
 
   return (
     <div className="flex justify-end md:justify-between items-center">
-      <div className="flex justify-center items-center gap-4 border rounded-md overflow-hidden">
+      <div className="flex justify-center items-center gap-4 border rounded-xl overflow-hidden">
         <Button
           disabled={isLoading}
           onClick={async () => {

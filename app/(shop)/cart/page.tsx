@@ -19,11 +19,11 @@ export default async function CartPage() {
 
   return (
     <main className="relative container my-4 md:my-8 flex flex-col-reverse lg:flex-row gap-4">
-      <div className="flex-2 space-y-2 rounded-md">
+      <div className="flex-2 space-y-2 rounded-xl">
         {cartProducts.length > 0 ? (
           cartProducts.map((item) => <CartCard key={item.id} item={item} />)
         ) : (
-          <p className="text-2xl capitalize border-2 p-10 rounded-md">
+          <p className="h-full bg-card text-lg lg:text-3xl capitalize flex justify-center items-center border-2 p-6 lg:p-10 rounded-xl">
             no product in cart
           </p>
         )}

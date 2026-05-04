@@ -38,7 +38,7 @@ export default function CategoriesForm({
             </p>
           ))
         ) : (
-          <p className="w-xl rounded-md text-xl capitalize p-4 border">
+          <p className="w-xl rounded-xl text-xl capitalize p-4 border">
             no categories yet
           </p>
         )}

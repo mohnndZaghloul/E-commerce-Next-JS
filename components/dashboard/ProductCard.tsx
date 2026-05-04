@@ -22,7 +22,7 @@ export default function ProductCard({
   isFavorite?: boolean;
 }) {
   return (
-    <div className="aspect-5/6 flex flex-col shadow-2xl shadow-card-shadow border rounded-md overflow-hidden">
+    <div className="aspect-5/6 flex flex-col shadow-2xl shadow-card-shadow border rounded-xl overflow-hidden">
       <div className="relative h-1/2 overflow-hidden flex justify-center items-center bg-card">
         <Image
           src={product.images[0]}

@@ -9,7 +9,7 @@ export default function Loading() {
           {[1, 2, 3, 4].map((index) => (
             <Skeleton
               key={index}
-              className="bg-card w-full aspect-square rounded-md"
+              className="bg-card w-full aspect-square rounded-xl"
             />
           ))}
         </div>

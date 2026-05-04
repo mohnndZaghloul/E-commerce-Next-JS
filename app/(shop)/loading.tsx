@@ -3,7 +3,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 export default function Loading() {
   return (
     <div className="container my-8">
-      <Skeleton className="bg-card w-full h-40 rounded-md" />
+      <Skeleton className="bg-card w-full h-40 rounded-xl" />
       <div className="my-10 space-y-4">
         <Skeleton className="bg-card h-10 w-1/3 rounded-full my-8" />
         <Skeleton className="bg-card h-5 w-1/5 rounded-full" />
@@ -16,7 +16,7 @@ export default function Loading() {
           {[1, 2, 3, 4].map((index) => (
             <Skeleton
               key={index}
-              className="bg-card w-full aspect-square rounded-md"
+              className="bg-card w-full aspect-square rounded-xl"
             />
           ))}
         </div>

@@ -110,7 +110,7 @@ export default function SignUpForm() {
         <Button
           type="submit"
           disabled={isLoading}
-          className="cursor-pointer capitalize w-full rounded-md shadow-2xl shadow-card-shadow py-4">
+          className="cursor-pointer capitalize w-full rounded-xl shadow-2xl shadow-card-shadow py-4">
           {isLoading ? "loading..." : "sign up"}
         </Button>
         <p>

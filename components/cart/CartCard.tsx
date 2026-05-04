@@ -6,13 +6,13 @@ import Link from "next/link";
 
 export default function CartCard({ item }: { item: CartProduct_TP }) {
   return (
-    <div className="flex gap-4 bg-card border-2 p-4 md:p-6 rounded-md hover:bg-card transition">
+    <div className="flex gap-4 bg-card border-2 p-4 md:p-6 rounded-xl hover:bg-card transition">
       <div className="relative w-24 md:w-50 md:aspect-square">
         <Image
           src={item.product.images[0]}
           alt={item.product.title}
           fill
-          className="w-full h-full object-cover object-center rounded-md"
+          className="w-full h-full object-cover object-center rounded-xl"
         />
       </div>
       <div className="flex-1 flex flex-col justify-between">
