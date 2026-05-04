@@ -28,7 +28,7 @@ export default function ProductCard({
           src={product.images[0]}
           alt={product.title}
           fill
-          className="bg-muted w-fit! object-cover mx-auto hover:scale-105 transition"
+          className="w-fit! object-cover mx-auto hover:scale-105 transition"
         />
         <FavoriteButton
           productId={product.id}
