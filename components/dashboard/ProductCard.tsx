@@ -47,7 +47,7 @@ export default function ProductCard({
             {product.title}
           </Link>
           <Badge
-            className={`${product.rating > 4 ? "bg-primary" : product.rating < 4 && product.rating > 3 ? "bg-amber-300" : product.rating < 3 && product.rating > 2 ? "bg-amber-500" : "bg-destructive"}`}>
+            className={`${product.rating >= 4 ? "bg-primary" : product.rating < 4 && product.rating >= 3 ? "bg-amber-300" : product.rating < 3 && product.rating >= 2 ? "bg-amber-500" : "bg-destructive"}`}>
             {product.rating} <Star className="fill-white" />
           </Badge>
         </div>
@@ -56,7 +56,7 @@ export default function ProductCard({
             {product.description}
           </p>
           <div
-            className={`flex py-1 gap-1 ${product?.rating! > 4 ? "text-primary" : product?.rating! < 4 && product?.rating! > 3 ? "text-amber-300" : product?.rating! < 3 && product?.rating! > 2 ? "text-amber-500" : "text-destructive"}`}>
+            className={`flex py-1 gap-1 ${product?.rating! >= 4 ? "text-primary" : product?.rating! < 4 && product?.rating! >= 3 ? "text-amber-300" : product?.rating! < 3 && product?.rating! >= 2 ? "text-amber-500" : "text-destructive"}`}>
             {product?.rating.toFixed(1)}
             <RatingStars rating={product.rating} size={21} />
           </div>

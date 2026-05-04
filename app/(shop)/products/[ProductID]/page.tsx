@@ -102,7 +102,7 @@ export default async function ProductPage({ params }: any) {
                 rating
               </h3>
               <div
-                className={`flex items-center gap-2 md:gap-5 md:text-2xl ${product?.rating! > 4 ? "text-primary" : product?.rating! < 4 && product?.rating! > 3 ? "text-amber-500" : product?.rating! < 3 && product?.rating! > 2 ? "text-orange-500" : "text-destructive"}`}>
+                className={`flex items-center gap-2 md:gap-5 md:text-2xl ${product?.rating! >= 4 ? "text-primary" : product?.rating! < 4 && product?.rating! >= 3 ? "text-amber-300" : product?.rating! < 3 && product?.rating! >= 2 ? "text-amber-500" : "text-destructive"}`}>
                 {product?.rating.toFixed(1)}
                 <RatingStars rating={product?.rating!} size={20} />
               </div>
