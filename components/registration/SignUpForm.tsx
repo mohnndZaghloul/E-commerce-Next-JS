@@ -6,9 +6,10 @@ import { User2Icon } from "lucide-react";
 import FormInput from "./FormInput";
 import ErrorMessage from "./ErrorMessage";
 import { registrationValidation } from "@/lib/validation";
-import { signUp } from "@/lib/auth/auth-client";
+import { signIn, signUp } from "@/lib/auth/auth-client";
 import { useRouter } from "next/navigation";
 import { Button } from "../ui/button";
+import GoogleIcon from "./GoogleIcon";
 
 export default function SignUpForm() {
   const router = useRouter();
@@ -27,7 +28,6 @@ export default function SignUpForm() {
     other: "",
   });
 
-  //handler function
   const signUpHandler = async (event: React.SubmitEvent<HTMLFormElement>) => {
     event.preventDefault();
 
@@ -48,6 +48,13 @@ export default function SignUpForm() {
         setErrors({ ...result, other: errors?.error?.message! });
         setIsLoading(false);
       },
+    });
+  };
+
+  const signInWithGoogle = async () => {
+    await signIn.social({
+      provider: "google",
+      callbackURL: "/dashboard",
     });
   };
 
@@ -112,6 +119,15 @@ export default function SignUpForm() {
           disabled={isLoading}
           className="cursor-pointer capitalize w-full rounded-xl shadow-2xl shadow-card-shadow py-4">
           {isLoading ? "loading..." : "sign up"}
+        </Button>
+        <Button
+          type="button"
+          variant="outline"
+          onClick={signInWithGoogle}
+          disabled={isLoading}
+          className="cursor-pointer capitalize w-full rounded-xl shadow-2xl shadow-card-shadow py-4">
+          <GoogleIcon />
+          {isLoading ? "loading..." : "sign up with Google"}
         </Button>
         <p>
           has already account ?{" "}

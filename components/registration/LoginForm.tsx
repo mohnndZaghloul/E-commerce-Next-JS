@@ -9,6 +9,7 @@ import { registrationValidation } from "@/lib/validation";
 import { signIn } from "@/lib/auth/auth-client";
 import { useRouter } from "next/navigation";
 import { Button } from "../ui/button";
+import GoogleIcon from "./GoogleIcon";
 
 export default function LoginForm() {
   const router = useRouter();
@@ -45,6 +46,13 @@ export default function LoginForm() {
         setErrors({ ...result, other: errors?.error?.message! });
         setIsLoading(false);
       },
+    });
+  };
+
+  const signInWithGoogle = async () => {
+    await signIn.social({
+      provider: "google",
+      callbackURL: "/dashboard",
     });
   };
 
@@ -88,8 +96,17 @@ export default function LoginForm() {
           className="cursor-pointer capitalize w-full rounded-xl shadow-2xl shadow-card-shadow py-4">
           {isLoading ? "loading..." : "login"}
         </Button>
+        <Button
+          type="button"
+          variant="outline"
+          onClick={signInWithGoogle}
+          disabled={isLoading}
+          className="cursor-pointer capitalize w-full rounded-xl shadow-2xl shadow-card-shadow py-4">
+          <GoogleIcon />
+          {isLoading ? "loading..." : "sign in with Google"}
+        </Button>
         <p>
-          has already account ?
+          Don't have an account?{" "}
           <Link
             className="underline hover:text-primary transition"
             href="/sign-up">
