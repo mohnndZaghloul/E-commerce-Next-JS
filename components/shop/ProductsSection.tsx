@@ -3,7 +3,7 @@
 import { Category_TP, Product_TP, User_TP } from "@/lib/types";
 import ProductCard from "../dashboard/ProductCard";
 import { Button } from "../ui/button";
-import { useEffect, useState, useTransition } from "react";
+import { useState, useTransition } from "react";
 import { useRouter, useSearchParams, usePathname } from "next/navigation";
 import { Loader, Search } from "lucide-react";
 import { Input } from "../ui/input";
@@ -28,7 +28,6 @@ export default function ProductsSection({
   const searchParams = useSearchParams();
   const [isPending, startTransition] = useTransition();
   const [searchText, setSearchText] = useState("");
-  const [filteredProducts, setFilteredProducts] = useState(products);
 
   const selectedCategories = searchParams.get("categories")?.split(",") ?? [];
 
@@ -59,15 +58,12 @@ export default function ProductsSection({
     });
   };
 
-  useEffect(() => {
-    setFilteredProducts(products);
-  }, [products]);
-
   const searchHandler = () => {
-    const result = products.filter((product) =>
-      product.title.toLowerCase().includes(searchText.toLowerCase()),
-    );
-    setFilteredProducts(result);
+    const current = new URLSearchParams(searchParams.toString());
+    current.set("search", String(searchText.toLocaleLowerCase()));
+    startTransition(() => {
+      router.push(`${pathname}?${current.toString()}`);
+    });
   };
 
   return (
@@ -115,9 +111,9 @@ export default function ProductsSection({
         <div className="flex justify-center items-center h-64">
           <Loader className="animate-spin text-primary " size={40} />
         </div>
-      ) : filteredProducts[0] ? (
+      ) : products[0] ? (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-          {filteredProducts.map((product) => {
+          {products.map((product) => {
             const isFavorite = !!user ? favoriteIds.has(product.id) : undefined;
             return (
               <ProductCard

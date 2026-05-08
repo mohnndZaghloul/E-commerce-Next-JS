@@ -6,6 +6,7 @@ import { ProductSchema } from "@/lib/validation";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { getCurrentUser } from "./customers-actions";
+import { Prisma } from "@/generated/prisma";
 
 export const productFormActions = async (
   meta: { mode: string; productId?: string },
@@ -99,15 +100,45 @@ export const productFormActions = async (
 export const getAllProducts = async () => {
   return await prisma.product.findMany();
 };
-export const getProductsByCategoryId = async (
+export const getProductsByFilter = async (
   categoryIds: string[],
+  searchText: string,
   page: number = 1,
   pageSize: number = 8,
 ) => {
-  const where =
-    categoryIds.length > 0
-      ? { categories: { some: { id: { in: categoryIds } } } }
-      : {};
+  const where: Prisma.ProductWhereInput = {
+    AND: [
+      {
+        OR: [
+          {
+            title: {
+              contains: searchText,
+              mode: Prisma.QueryMode.insensitive,
+            },
+          },
+          {
+            tags: {
+              has: searchText.toLowerCase(),
+            },
+          },
+        ],
+      },
+
+      ...(categoryIds.length > 0
+        ? [
+            {
+              categories: {
+                some: {
+                  id: {
+                    in: categoryIds,
+                  },
+                },
+              },
+            },
+          ]
+        : []),
+    ],
+  };
 
   const [products, total] = await Promise.all([
     prisma.product.findMany({

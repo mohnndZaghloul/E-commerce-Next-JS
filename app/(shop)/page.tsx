@@ -1,6 +1,6 @@
 import { getCurrentUser } from "@/actions/customers-actions";
 import { getFavProducts } from "@/actions/favorite-actions";
-import { getProductsByCategoryId } from "@/actions/products-actions";
+import { getProductsByFilter } from "@/actions/products-actions";
 import { getAllCategories } from "@/actions/system-actions";
 import HeroCarousel from "@/components/shop/HeroCarousel";
 import ProductsSection from "@/components/shop/ProductsSection";
@@ -16,17 +16,20 @@ export const metadata: Metadata = {
 export default async function ShopPage({
   searchParams,
 }: {
-  searchParams: { categories?: string; page?: string };
+  searchParams: { categories?: string; page?: string; search?: string };
 }) {
-  const { categories, page } = await searchParams;
+  const { categories, page, search } = await searchParams;
   const categoryIds = categories?.split(",") ?? [];
   const currentPage = Number(page) || 1;
+  const searchText = search ?? "";
 
   const user = await getCurrentUser();
-  const { products, total, totalPages } = await getProductsByCategoryId(
+  const { products, total, totalPages } = await getProductsByFilter(
     categoryIds,
+    searchText,
     currentPage,
   );
+
   const favorites = await getFavProducts();
   const allCategories = await getAllCategories();
   const favoriteIds = new Set(favorites.map((fav) => fav.productId));
