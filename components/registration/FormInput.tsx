@@ -10,6 +10,7 @@ import { FormInput_TP } from "@/lib/types";
 
 export default function FormInput({
   name,
+  label,
   placeholder,
   value,
   className,
@@ -29,10 +30,10 @@ export default function FormInput({
 
   return (
     <>
-      <div className="relative mt-2 w-full">
+      <div className="relative mt-2 w-full space-y-2">
         <div className="flex justify-between items-center">
           <Label className="capitalize text-sm" htmlFor={id}>
-            {name}
+            {label || name}
           </Label>
           {error && <ErrorMessage message={error} />}
         </div>

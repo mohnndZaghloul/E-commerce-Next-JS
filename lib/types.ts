@@ -93,6 +93,7 @@ export type User_TP = {
 
 export type FormInput_TP = {
   name?: string;
+  label?: string;
   placeholder?: string;
   value?: string | string[];
   className?: string;

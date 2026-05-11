@@ -7,7 +7,7 @@ import {
   DropdownMenuShortcut,
   DropdownMenuTrigger,
 } from "../ui/dropdown-menu";
-import { LogOutIcon, LayoutDashboard } from "lucide-react";
+import { LogOutIcon, CircleUserRound, LayoutDashboard } from "lucide-react";
 import Link from "next/link";
 import { signOut } from "@/lib/auth/auth-client";
 import { useRouter } from "next/navigation";
@@ -48,6 +48,14 @@ export default function NavDropdownMenu({ data }: any) {
             {data?.user?.name}
           </DropdownMenuLabel>
           <DropdownMenuLabel>{data?.user.email}</DropdownMenuLabel>
+          <DropdownMenuItem>
+            <Link
+              href="/dashboard/profile"
+              className="w-full flex justify-between">
+              Profile
+              <CircleUserRound />
+            </Link>
+          </DropdownMenuItem>
           <DropdownMenuItem>
             <Link href="/dashboard" className="w-full flex justify-between">
               Dashboard

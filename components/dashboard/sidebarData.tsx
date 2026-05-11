@@ -9,6 +9,7 @@ import {
   BoxIcon,
   User2,
   ListOrderedIcon,
+  CircleUserRound,
   LayoutDashboard,
   MonitorCog,
 } from "lucide-react";
@@ -18,19 +19,9 @@ import { JSX } from "react";
 export const data = {
   teams: [
     {
-      name: "Acme Inc",
+      name: "Zaghloul",
       logo: <GalleryVerticalEndIcon />,
-      plan: "Enterprise",
-    },
-    {
-      name: "Acme Corp.",
-      logo: <AudioLinesIcon />,
-      plan: "Startup",
-    },
-    {
-      name: "Evil Corp.",
-      logo: <TerminalIcon />,
-      plan: "Free",
+      plan: "E-commerce",
     },
   ],
   navMain: [
@@ -132,6 +123,12 @@ type SidebarLink = {
 };
 
 export const sidebarLinks: SidebarLink[] = [
+  {
+    label: "Profile",
+    url: "/dashboard/profile",
+    icon: <CircleUserRound />,
+    roles: ["ADMIN", "USER"],
+  },
   {
     label: "Dashboard",
     url: "/dashboard",

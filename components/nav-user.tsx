@@ -27,6 +27,7 @@ import {
   BellIcon,
   LogOutIcon,
 } from "lucide-react";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 
 export function NavUser({ user }: { user?: User_TP }) {
@@ -84,18 +85,14 @@ export function NavUser({ user }: { user?: User_TP }) {
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
             <DropdownMenuGroup>
-              <DropdownMenuItem>
-                <BadgeCheckIcon />
-                Account
-              </DropdownMenuItem>
-              <DropdownMenuItem>
-                <CreditCardIcon />
-                Billing
-              </DropdownMenuItem>
-              <DropdownMenuItem>
-                <BellIcon />
-                Notifications
-              </DropdownMenuItem>
+              <DropdownMenuItem
+                render={
+                  <Link href="/dashboard/profile">
+                    <BadgeCheckIcon />
+                    Account
+                  </Link>
+                }
+              />
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
             <DropdownMenuItem

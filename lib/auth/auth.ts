@@ -20,6 +20,7 @@ export const auth = betterAuth({
   },
   emailAndPassword: {
     enabled: true,
+    minPasswordLength: 8,
     sendResetPassword: async ({ user, url }) => {
       const token = url.split("/").pop()?.split("?")[0];
       const customUrl = `${baseURL}/reset-password?token=${token}`;

@@ -11,6 +11,7 @@ import {
 import Link from "next/link";
 import { JSX } from "react";
 import { Role } from "./dashboard/sidebarData";
+import { usePathname } from "next/navigation";
 
 export function NavProjects({
   projects,
@@ -23,6 +24,7 @@ export function NavProjects({
   }[];
 }) {
   const { isMobile } = useSidebar();
+  const path = usePathname();
 
   return (
     <SidebarGroup className="group-data-[collapsible=icon]:hidden">
@@ -30,7 +32,9 @@ export function NavProjects({
       <SidebarMenu>
         {projects.map((item) => (
           <SidebarMenuItem key={item.label}>
-            <SidebarMenuButton render={<Link href={item.url} />}>
+            <SidebarMenuButton
+              className={`${path?.split("/")[2] === item?.url?.split("/")[2] ? "text-primary hover:text-primary" : "none"}`}
+              render={<Link href={item.url} />}>
               {item.icon}
               <span>{item.label}</span>
             </SidebarMenuButton>
