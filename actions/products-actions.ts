@@ -98,6 +98,7 @@ export const productFormActions = async (
   redirect("/dashboard/products");
 };
 export const getAllProducts = async () => {
+  // "use cache";
   return await prisma.product.findMany();
 };
 export const getProductsByFilter = async (

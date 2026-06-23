@@ -1,13 +1,15 @@
-import { getCurrentUser } from "@/actions/customers-actions";
-import { getProductById } from "@/actions/products-actions";
+import { getAllProducts, getProductById } from "@/actions/products-actions";
 import AddToCartButton from "@/components/shop/AddToCartButton";
 import ProductCarousel from "@/components/shop/ProductCarousel";
 import { RatingStars } from "@/components/shop/RatingStars";
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
 
+// After 1 hour, Next regenerates products in the background
+export const revalidate = 3600;
+
 type Props = {
-  params: { ProductID: string };
+  params: Promise<{ ProductID: string }>;
 };
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
@@ -29,10 +31,15 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   };
 }
 
-export default async function ProductPage({ params }: any) {
+export async function generateStaticParams() {
+  const products = await getAllProducts();
+  return products.map((product) => ({ ProductID: product.id.toString() }));
+}
+
+export default async function ProductPage({ params }: Props) {
   const { ProductID } = await params;
-  const user = await getCurrentUser();
   const product = await getProductById(ProductID);
+
   if (!product) notFound();
 
   return (
@@ -113,7 +120,6 @@ export default async function ProductPage({ params }: any) {
           </div>
           <AddToCartButton
             productId={product.id}
-            isLoggedIn={!!user}
             className="w-full text-sm md:text-lg h-12 cursor-pointer capitalize shadow-lg shadow-card-shadow"
             size={32}
           />

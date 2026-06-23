@@ -5,6 +5,7 @@ import { useCartStore } from "@/store/cart";
 import { addToCart } from "@/actions/cart-actions";
 import { useState } from "react";
 import AuthDialog from "./AuthDialog";
+import { getCurrentUser } from "@/actions/customers-actions";
 
 export default function AddToCartButton({
   productId,
@@ -13,7 +14,7 @@ export default function AddToCartButton({
   size,
 }: {
   productId: string;
-  isLoggedIn: boolean;
+  isLoggedIn?: boolean;
   className?: string;
   size?: number;
 }) {
@@ -23,12 +24,13 @@ export default function AddToCartButton({
   const incrementCart = useCartStore((state) => state.incrementCart);
 
   const handlerAddToCart = async () => {
-    if (!isLoggedIn) {
+    setIsLoading(true);
+    const user = await getCurrentUser();
+    if (!user) {
       setShowAuthDialog(true);
       return;
     }
 
-    setIsLoading(true);
     try {
       await addToCart(productId);
       incrementCart();

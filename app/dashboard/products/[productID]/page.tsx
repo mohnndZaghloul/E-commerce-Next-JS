@@ -2,7 +2,11 @@ import { getProductById } from "@/actions/products-actions";
 import { getAllCategories } from "@/actions/system-actions";
 import ProductForm from "@/components/dashboard/products/ProductForm";
 
-export default async function ProductPage({ params }: any) {
+export default async function ProductPage({
+  params,
+}: {
+  params: { productID: string };
+}) {
   const { productID } = (await params) || "add-product";
   let mode;
   if (productID === "add-product") {
